@@ -216,15 +216,6 @@ body.modal-open {
   overflow: hidden !important;
 }
 
-/* Deactivates background scroll navigation clicks while any modal is open */
-body.modal-open .nav-links a,
-body.modal-open .mobile-menu a,
-body.modal-open .logo a,
-body.modal-open .cta-btn {
-  pointer-events: none !important;
-  cursor: not-allowed !important;
-}
-
 /* Calculates exact viewport coverage starting 2.5px underneath standard header border lines */
 .proj-modal-overlay,
 .about-modal-overlay,
@@ -471,6 +462,12 @@ html.theme-light .theme-icon-moon { display: block; }
   box-shadow: 0 8px 24px var(--accent-border);
 }
 
+@media (max-width: 400px) {
+  .cta-btn {
+    display: none;
+  }
+}
+
 .menu-toggle {
   display: none;
   flex-direction: column;
@@ -574,6 +571,30 @@ html.theme-light .theme-icon-moon { display: block; }
 .mobile-link:hover {
   color: var(--text-primary);
   padding-left: 32px;
+}
+
+.mobile-menu-cta {
+  display: none;
+  margin: 12px 16px 8px;
+  padding: 12px 24px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.mobile-menu-cta:hover {
+  opacity: 0.88;
+}
+
+@media (max-width: 400px) {
+  .mobile-menu-cta {
+    display: block;
+  }
 }
 
 @media (max-width: 1024px) {
@@ -900,6 +921,8 @@ html.theme-light .theme-icon-moon { display: block; }
   border: 1px solid var(--border-subtle);
   border-radius: 12px;
   padding: 36px 32px;
+  max-width: 400px;
+  margin: 0 auto;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   transition: border-color 0.4s ease, transform 0.4s ease;
@@ -1365,81 +1388,153 @@ html.theme-light .theme-icon-moon { display: block; }
 }
 
 /* =============================================
-   BELIEFS SECTION (UPDATED EDITORIAL SPLIT)
+   BELIEFS SECTION
 ============================================= */
 .beliefs-section {
   background: transparent;
 }
 
-.beliefs-container {
+.beliefs-layout {
   display: grid;
-  grid-template-columns: 1fr 1.4fr;
-  gap: clamp(2.5rem, 5vw, 6rem);
+  grid-template-columns: 1fr 1.35fr;
+  gap: clamp(3rem, 6vw, 7rem);
   align-items: start;
 }
 
-.beliefs-sticky-left {
+/* ---- Left: pull quote panel ---- */
+.beliefs-quote-panel {
   position: sticky;
   top: 120px;
+  border-left: 2px solid var(--accent);
+  padding-left: clamp(1.5rem, 3vw, 2.5rem);
 }
 
-.beliefs-sticky-desc {
-  font-size: 1rem;
-  color: var(--text-muted);
-  line-height: 1.7;
-  margin-top: 16px;
-  max-width: 320px;
-}
-
-.beliefs-list-right {
-  display: flex;
-  flex-direction: column;
-  gap: 48px;
-}
-
-.beliefs-list-item {
-  display: flex;
-  gap: 28px;
-  padding-bottom: 32px;
-  border-bottom: 1px solid var(--border);
-}
-
-.beliefs-list-item:last-child {
-  border-bottom: none;
-  padding-bottom: 0;
-}
-
-.beliefs-list-num {
-  font-family: 'JetBrains Mono', 'SF Mono', monospace;
-  font-size: 1.5rem;
-  font-weight: 500;
+.beliefs-quote-mark {
+  font-size: 5rem;
+  line-height: 0.8;
   color: var(--accent);
-  opacity: 0.8;
-  line-height: 1.2;
+  opacity: 0.3;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 700;
+  margin-bottom: 16px;
+  display: block;
+  user-select: none;
 }
 
-.beliefs-list-title {
-  font-size: clamp(1.2rem, 2vw, 1.5rem);
-  font-weight: 600;
+.beliefs-quote-text {
+  font-size: clamp(1.05rem, 1.8vw, 1.3rem);
+  font-style: italic;
   color: var(--text-primary);
-  margin-bottom: 10px;
+  line-height: 1.7;
+  margin: 0 0 28px;
   letter-spacing: -0.01em;
 }
 
-.beliefs-list-desc {
-  font-size: 0.95rem;
+.beliefs-quote-rule {
+  width: 32px;
+  height: 1px;
+  background: var(--accent);
+  opacity: 0.5;
+  margin-bottom: 16px;
+}
+
+.beliefs-quote-byline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.belief-star {
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+/* ---- Right: belief rows ---- */
+.beliefs-items {
+  display: flex;
+  flex-direction: column;
+}
+
+.belief-row {
+  display: flex;
+  gap: 20px;
+  padding: clamp(1.2rem, 2.5vw, 1.8rem) 0;
+  border-top: 1px solid var(--border);
+  transition: border-color 0.3s ease;
+}
+
+.belief-row:last-child {
+  border-bottom: 1px solid var(--border);
+}
+
+.belief-row:hover {
+  border-color: var(--accent-border);
+}
+
+.belief-row-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding-top: 3px;
+  flex-shrink: 0;
+  width: 32px;
+}
+
+.belief-row-num {
+  font-family: 'JetBrains Mono', 'SF Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--accent);
+  opacity: 0.6;
+  letter-spacing: 0.1em;
+}
+
+.belief-row-body {
+  flex: 1;
+}
+
+.belief-row-title {
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.belief-row-desc {
+  font-size: 0.9rem;
   color: var(--text-muted);
   line-height: 1.75;
 }
 
+/* ---- Responsive ---- */
 @media (max-width: 824px) {
-  .beliefs-container {
+  .beliefs-layout {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 3.5rem;
   }
-  .beliefs-sticky-left {
+
+  .beliefs-quote-panel {
     position: relative;
     top: 0;
+    max-width: 500px;
+  }
+}
+
+@media (max-width: 480px) {
+  .beliefs-quote-mark {
+    font-size: 3.5rem;
+  }
+
+  .beliefs-quote-text {
+    font-size: 1rem;
   }
 }
 
@@ -1506,24 +1601,23 @@ html.theme-light .theme-icon-moon { display: block; }
   letter-spacing: -0.01em;
 }
 
+.pricing-scope-badge {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border: 1px solid var(--accent-border);
+  border-radius: 999px;
+  display: inline-block;
+  margin-bottom: 20px;
+  background: var(--accent-soft);
+}
+
 .pricing-tag {
   font-size: 0.78rem;
   color: var(--text-muted);
-}
-
-.pricing-price {
-  display: flex;
-  align-items: baseline;
-  gap: 6px;
-  margin-top: 8px;
-}
-
-.pricing-amount {
-  font-size: clamp(2rem, 4vw, 2.8rem);
-  font-weight: 700;
-  color: var(--text-primary);
-  letter-spacing: -0.03em;
-  line-height: 1;
 }
 
 .pricing-per {
@@ -1613,7 +1707,7 @@ html.theme-light .theme-icon-moon { display: block; }
 @media (max-width: 900px) {
   .pricing-grid {
     grid-template-columns: 1fr;
-    max-width: 480px;
+    max-width: 400px;
     margin: 0 auto;
   }
 }
@@ -2105,6 +2199,12 @@ html.theme-light .theme-icon-moon { display: block; }
   letter-spacing: 0.05em;
 }
 
+.card-category {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
 .p-card-cat {
   font-size: 0.72rem;
   font-weight: 500;
@@ -2114,6 +2214,39 @@ html.theme-light .theme-icon-moon { display: block; }
   padding: 4px 12px;
   border: 1px solid var(--border);
   border-radius: 999px;
+}
+
+.in-progress {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  background: rgba(245, 158, 11, 0.08);
+  color: #fbbe24a9;
+  text-transform: uppercase;
+  backdrop-filter: blur(10px);
+}
+
+.progress-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: #fbbe24c8;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+0%, 100% {
+  opacity: 1;
+  transform: scale(1);
+}
+
+50% {
+  opacity: .45;
+  transform: scale(0.8);
+}
+
 }
 
 .p-card-name {
@@ -2199,29 +2332,67 @@ html.theme-light .theme-icon-moon { display: block; }
   transform: scale(1.02);
 }
 
-@media (max-width: 824px) {
+@media (max-width: 768px) {
   .p-card {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto;
+    /* Let the card grow with its content — no fixed height */
+    height: auto !important;
+    min-height: unset;
+    overflow: visible;
   }
+
   .p-card-right {
+    order: -1;
     aspect-ratio: 16 / 10;
     width: 100%;
-    max-width: 500px;
-    
+    max-height: 220px;
+    border-radius: 10px;
+    overflow: hidden;
   }
 
   .p-card-left {
     justify-content: flex-start;
-    margin-top: 15px;
+    gap: 12px;
+    margin-top: 8px;
   }
 
-  .p-stack-inner {
-    top: 72px;
-    height: calc(100vh - 72px);
-    color: rgba(54, 114, 175, 0.71);
+  .p-card-name {
+    font-size: clamp(1.4rem, 5vw, 2rem);
+  }
+
+  .p-card-desc {
+    font-size: 0.88rem;
+    max-width: 100%;
+    -webkit-line-clamp: unset;
+    line-clamp: 3;
+  }
+
+  .p-card-actions {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  /* Allow button text to wrap rather than overflow */
+  .p-card-btn,
+  .p-card-details-btn {
+    white-space: normal;
+    text-align: center;
+    flex: 1 1 auto;
+    min-width: 130px;
+    justify-content: center;
   }
 }
+
+@media (max-width: 410px) {
+  .card-category { 
+    flex-direction: column;
+    gap: 10px; 
+  }
+}
+
+
+
 
 /* =============================================
    PROJECT CARD ACTIONS
@@ -2329,6 +2500,33 @@ html.theme-light .theme-icon-moon { display: block; }
   z-index: 10;
 }
 
+.proj-modal-highlights {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.proj-modal-highlight-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.proj-modal-highlight-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+  margin-top: 7px;
+}
+
 @media (max-width: 600px) {
   .proj-modal-overlay {
     padding: 0;
@@ -2339,7 +2537,7 @@ html.theme-light .theme-icon-moon { display: block; }
   .proj-modal {
     border-radius: 16px 16px 5px 5px;
     margin-bottom: 1rem;
-    min-height: 80vh;
+    max-height: 85vh;
   }
   
   .carousel-slide {
@@ -2347,14 +2545,15 @@ html.theme-light .theme-icon-moon { display: block; }
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 500px) {
+  .proj-modal { min-width: 100%;}
   .proj-modal-footer {
-    padding: 10px 16px !important;
+    padding: clamp(0.8rem, 1.7vw, 1.3rem) clamp(1.3rem, 2.75vw, 1.8rem) clamp(1.3rem, 2.75vw, 1.8rem);
     gap: 6px !important;
   }
   .proj-modal-footer .p-card-btn,
   .proj-modal-footer .p-card-details-btn {
-    padding: 5px 12px !important;
+    padding: 4px 12px !important;
     font-size: 0.72rem !important;
     gap: 3px !important;
     letter-spacing: 0.01em !important;
@@ -2763,9 +2962,9 @@ html.theme-light .theme-icon-moon { display: block; }
 ============================================= */
 .lightbox-overlay {
   position: fixed;
-  background: rgba(0, 0, 0, 0.95);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(10, 12, 20, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   z-index: 99999;
   display: flex;
   align-items: center;
@@ -2794,6 +2993,20 @@ html.theme-light .theme-icon-moon { display: block; }
 .lightbox-close:hover {
   background: var(--accent);
   transform: scale(1.05);
+}
+
+html.theme-light .lightbox-overlay {
+  background: rgba(240, 237, 230, 0.88);
+}
+
+html.theme-light .lightbox-close {
+  background: rgba(0, 0, 0, 0.08);
+  color: #15171c;
+}
+
+html.theme-light .lightbox-close:hover {
+  background: var(--accent);
+  color: #fff;
 }
 
 .lightbox-img {

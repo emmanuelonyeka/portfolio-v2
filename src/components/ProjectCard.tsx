@@ -8,6 +8,8 @@ interface ProjectCardProps {
   cat: string
   name: string
   desc: string
+  overview?: string
+  highlights?: string[]   
   tech: string[]
   col2: string
   desktopImages?: string[]
@@ -17,6 +19,7 @@ interface ProjectCardProps {
   tabColor: string
   tabBg: string
   scrollYProgress: MotionValue<number>
+  inProgress?: boolean
 }
 
 const PEEK = 40
@@ -31,6 +34,8 @@ export default function ProjectCard({
   cat,
   name,
   desc,
+  overview,
+  highlights = [],  
   tech,
   col2,
   desktopImages = [],
@@ -40,6 +45,7 @@ export default function ProjectCard({
   tabColor,
   tabBg,
   scrollYProgress,
+  inProgress = false,
 }: ProjectCardProps) {
   const [modalOpen, setModalOpen] = useState(false)
   const [lightboxImage, setLightboxImage] = useState<string | null>(null)
@@ -48,7 +54,7 @@ export default function ProjectCard({
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobileScreen(window.innerWidth < 824)
+      setIsMobileScreen(window.innerWidth < 768)
     }
     handleResize()
     window.addEventListener('resize', handleResize)
@@ -154,18 +160,40 @@ export default function ProjectCard({
     }
   }, [modalOpen, lightboxImage])
 
+  // Close modal when any nav anchor link is clicked
+    useEffect(() => {
+      if (!modalOpen && !lightboxImage) return
+
+      const handleNavClick = (e: MouseEvent) => {
+        const target = e.target as HTMLElement
+        // Close modal for anchor nav links — but NOT theme toggle or hamburger
+        const isAnchorLink = target.closest('a[href^="#"]')
+        const isThemeToggle = target.closest('#themeToggle')
+        const isMenuToggle = target.closest('#menuToggle')
+        
+        if (isAnchorLink && !isThemeToggle && !isMenuToggle) {
+          setModalOpen(false)
+          setLightboxImage(null)
+        }
+      }
+
+      document.addEventListener('click', handleNavClick)
+      return () => document.removeEventListener('click', handleNavClick)
+    }, [modalOpen, lightboxImage])
+
   return (
     <>
       <div
         style={{
-          position: 'sticky',
-          top: stickyTop,
-          height: cardHeight,
+          position: isMobileScreen ? 'relative' : 'sticky',
+          top: isMobileScreen ? 'unset' : stickyTop,
+          height: isMobileScreen ? 'auto' : cardHeight,
           paddingLeft: 'clamp(1rem, 3vw, 2.5rem)',
           paddingRight: 'clamp(1rem, 3vw, 2.5rem)',
-          paddingBottom: `${PEEK}px`,
+          paddingBottom: isMobileScreen ? 0 : `${PEEK}px`,
+          paddingTop: isMobileScreen ? `${TAB_HEIGHT + TAB_STEP + 8}px` : 0,
           zIndex: index + 1,
-          marginBottom: marginBottom,
+          marginBottom: isMobileScreen ? '0px' : marginBottom,
         }}
       >
         <motion.div
@@ -241,18 +269,26 @@ export default function ProjectCard({
           <div
             className="p-card"
             style={{
-              position: 'absolute',
-              top: TAB_HEIGHT,
-              left: 0,
-              right: 0,
-              height: `calc(100vh - ${NAV_H + 24 + 3 * PEEK + TAB_HEIGHT + 24}px)`,
+              position: isMobileScreen ? 'relative' : 'absolute',
+              top: isMobileScreen ? 'unset' : TAB_HEIGHT,
+              left: isMobileScreen ? 'unset' : 0,
+              right: isMobileScreen ? 'unset' : 0,
+              height: isMobileScreen ? 'auto' : `calc(100vh - ${NAV_H + 24 + 3 * PEEK + TAB_HEIGHT + 24}px)`,
               boxShadow: '0px -10px 30px rgba(0, 0, 0, 0.15), 0 20px 60px rgba(0, 0, 0, 0.25)',
             }}
           >
             <div className="p-card-left">
               <div className="p-card-top">
                 <span className="p-card-num">{num}</span>
-                <span className="p-card-cat">{cat}</span>
+                <div className='card-category'>
+                  <span className="p-card-cat">{cat}</span>
+                  {inProgress && (
+                    <span className="p-card-cat in-progress">
+                      <span className="progress-dot" />
+                      In Progress
+                    </span>
+                  )}
+                </div>
               </div>
               <h3 className="p-card-name">{name}</h3>
               <p className="p-card-desc">{desc}</p>
@@ -427,7 +463,20 @@ export default function ProjectCard({
               <div className="proj-modal-section">
                 <h3 className="proj-modal-section-title">Overview</h3>
                 <div className="proj-modal-divider" style={{ margin: '6px 0 14px' }} />
-                <p className="proj-modal-desc">{desc}</p>
+                <p className="proj-modal-desc">{overview || desc}</p>
+              </div>
+
+              <div className="proj-modal-section" style={{ marginTop: '12px' }}>
+                <h3 className="proj-modal-section-title">Highlights</h3>
+                <div className="proj-modal-divider" style={{ margin: '6px 0 14px' }} />
+                <ul className="proj-modal-highlights">
+                {highlights.map((h: string, i: number) => (
+                    <li key={i} className="proj-modal-highlight-item">
+                      <span className="proj-modal-highlight-dot" aria-hidden="true" />
+                      {h}
+                    </li>
+                  ))}
+                </ul>
               </div>
 
               <div className="proj-modal-section" style={{ marginTop: '12px' }}>

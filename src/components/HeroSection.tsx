@@ -123,7 +123,7 @@ export default function HeroSection() {
         <div className="hero-right">
           <Magnet padding={150} strength={3}>
             <div className="image-wrapper" id="heroImageWrapper">
-              <img src="/images/IMG_0659.jpg" alt="Emmanuel Onyekachi" />
+              <img src={`${import.meta.env.BASE_URL}images/my-portfolio-picture.png`} alt="Emmanuel Onyekachi" />
             </div>
           </Magnet>
         </div>

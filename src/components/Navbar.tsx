@@ -316,6 +316,7 @@ export default function Navbar() {
           <a href="#skills"   className="mobile-link" data-index="2">Skills</a>
           <a href="#services" className="mobile-link" data-index="3">Services</a>
           <a href="#contact"  className="mobile-link" data-index="4">Contact</a>
+          <a href="#contact" className="mobile-menu-cta">Work With Me</a>
         </div>
       </div>
     </header>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import FadeIn from './FadeIn'
+import emailjs from '@emailjs/browser'
 
 const LINKS = [
   {
@@ -114,24 +115,20 @@ export default function ContactSection() {
     
     setStatus('sending')
     try {
-      const res = await fetch('https://formspree.io/f/xyzkqypk', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: formData.name,
-          _replyto: formData.email,
-          subject: formData.subject || 'Portfolio Form Submission',
+      await emailjs.send(
+        'portfolio_service',
+        'template_1f62wqd',
+        {
+          from_name: formData.name,
+          reply_to: formData.email,
+          subject: formData.subject || 'Portfolio Inquiry',
           message: formData.message,
-        }),
-      })
-
-      if (res.ok) {
-        setStatus('success')
-        setFormData({ name: '', email: '', subject: '', message: '' })
-        setErrors({})
-      } else {
-        setStatus('error')
-      }
+        },
+        'ljk0GkX08nRFkTloe'
+      )
+      setStatus('success')
+      setFormData({ name: '', email: '', subject: '', message: '' })
+      setErrors({})
     } catch (err) {
       setStatus('error')
     }

@@ -3,7 +3,6 @@ import FadeIn from './FadeIn'
 const PLANS = [
   {
     tier: 'Essential',
-    price: '$300',
     tag: 'For individuals & small businesses',
     features: [
       'Single-page website',
@@ -14,45 +13,40 @@ const PLANS = [
       '1 round of revisions',
       '7-day delivery',
     ],
-    cta: 'Start Essential',
-    waMsg: 'Hi Emmanuel, I\'m interested in the Essential plan ($300). Can we talk?',
+    cta: 'Get a Quote',
+    waMsg: 'Hi Emmanuel, I\'m interested in the Essential package. Can we discuss my project and budget?',
     highlight: false,
   },
   {
     tier: 'Professional',
-    price: '$700',
-    tag: 'Most popular',
+    tag: 'Most popular choice',
     features: [
       'Multi-page website (up to 5 pages)',
       'Fully responsive design',
       'Custom animations & interactions',
       'EmailJS or form integration',
       'SEO fundamentals',
-      'Performance optimization',
       '2 rounds of revisions',
       '14-day delivery',
     ],
-    cta: 'Start Professional',
-    waMsg: 'Hi Emmanuel, I\'m interested in the Professional plan ($700). Can we talk?',
+    cta: 'Get a Quote',
+    waMsg: 'Hi Emmanuel, I\'m interested in the Professional package. Can we discuss my project and budget?',
     highlight: true,
   },
   {
-    tier: 'Signature',
-    price: '$1,500',
-    tag: 'For brands that want the best',
+    tier: 'Premium',
+    tag: 'For ambitious products',
     features: [
-      'Everything in Professional',
-      'React / Next.js build',
-      'Advanced motion design',
-      'CMS integration',
-      'Full SEO setup',
-      'Performance audit',
-      '3 rounds of revisions',
-      'Priority support for 30 days',
-      '21-day delivery',
+      'Custom React application',
+      'Complex animations & interactions',
+      'API & third-party integrations',
+      'Performance optimization',
+      'Full testing & QA',
+      'Unlimited revisions',
+      'Priority delivery',
     ],
-    cta: 'Start Signature',
-    waMsg: 'Hi Emmanuel, I\'m interested in the Signature plan ($1,500). Can we talk?',
+    cta: 'Let\'s Talk',
+    waMsg: 'Hi Emmanuel, I\'m interested in the Premium package. Can we discuss my project?',
     highlight: false,
   },
 ]
@@ -79,10 +73,9 @@ export default function PricingSection() {
                 <div className="pricing-header">
                   <h3 className="pricing-tier">{plan.tier}</h3>
                   <p className="pricing-tag">{plan.tag}</p>
-                  <div className="pricing-price">
-                    <span className="pricing-amount">{plan.price}</span>
-                    <span className="pricing-per">/ project</span>
-                  </div>
+                  <div className="pricing-scope-badge">
+                  Budget-friendly · Let's talk
+                </div>
                 </div>
 
                 <ul className="pricing-features">

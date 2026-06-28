@@ -75,12 +75,24 @@ export default function MarqueeSection() {
     window.addEventListener('scroll', onScroll, { passive: true })
     window.addEventListener('resize', onResize)
     updateTarget()
-    rafRef.current = requestAnimationFrame(tick)
+    // Only run RAF when section is visible — prevents iOS GPU thrash
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          rafRef.current = requestAnimationFrame(tick)
+        } else {
+          cancelAnimationFrame(rafRef.current)
+        }
+      },
+      { threshold: 0 }
+    )
+    observer.observe(section)
 
     return () => {
       window.removeEventListener('scroll', onScroll)
       window.removeEventListener('resize', onResize)
       cancelAnimationFrame(rafRef.current)
+      observer.disconnect()
     }
   }, [])
 
@@ -101,7 +113,7 @@ export default function MarqueeSection() {
       <div
         ref={row1Ref}
         className="flex mb-3"
-        style={{ gap: 'clamp(6px, 1vw, 12px)', willChange: 'transform' }}
+        style={{ gap: 'clamp(6px, 1vw, 12px)', willChange: 'transform', transform: 'translateZ(0)' }}
       >
         {ROW1.map((src, i) => (
           <img key={i} src={src} alt="" loading="lazy" style={imgStyle} />
@@ -111,7 +123,7 @@ export default function MarqueeSection() {
       <div
         ref={row2Ref}
         className="flex"
-        style={{ gap: 'clamp(6px, 1vw, 12px)', willChange: 'transform' }}
+        style={{ gap: 'clamp(6px, 1vw, 12px)', willChange: 'transform', transform: 'translateZ(0)' }}
       >
         {ROW2.map((src, i) => (
           <img key={i} src={src} alt="" loading="lazy" style={imgStyle} />
