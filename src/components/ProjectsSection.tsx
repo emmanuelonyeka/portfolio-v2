@@ -20,7 +20,7 @@ const PROJECTS = [
     tech: ['HTML', 'CSS', 'JavaScript', 'EmailJS'],
     href: 'https://emmanuelonyeka.github.io/lumiere-restaurant/',
     code: 'https://github.com/emmanuelonyeka/lumiere-restaurant', 
-    col2: `${base}images/lumiere.png`,
+    col2: `${base}videos/lumiere2.mp4`,
     desktopImages: [
       `${base}images/lumiere.png`,
       `${base}images/primenest.png`,
@@ -30,10 +30,10 @@ const PROJECTS = [
     ],
     mobileImages: [
       `${base}images/lumiere.png`,
-      `${base}images/primenest.png`,
-      `${base}images/nairasave.png`,
-      `${base}images/solara.png`,
-      `${base}images/lumiere.png`
+      `${base}images/lumiere/m02-homepage-menu.png`,
+      `${base}images/lumiere/m03-reservation-experience.png`,
+      `${base}images/lumiere/m04-reservation-calender.png`,
+      `${base}images/lumiere/m5-cancel-success.png`
     ],
     tabColor: '#c9a84c',
     tabBg: 'var(--surface-hover)',
@@ -54,7 +54,7 @@ const PROJECTS = [
     tech: ['HTML', 'CSS', 'JavaScript', 'ScrollReveal'],
     href: 'https://emmanuelonyeka.github.io/real-estate/',
     code: 'https://github.com/emmanuelonyeka/real-estate', 
-    col2: `${base}images/primenest.png`,
+    col2: `${base}videos/primenest2.mp4`,
     desktopImages: [
       `${base}images/primenest.png`,
       `${base}images/lumiere.png`,
@@ -85,9 +85,9 @@ const PROJECTS = [
       'Deployed on Netlify with CI pipeline',
     ],
     tech: ['React', 'Vite', 'Tailwind', 'Framer Motion'],
-    href: '#',
-    code: 'https://github.com/emmanuelonyeka/nairasave', 
-    col2: `${base}images/nairasave.png`,
+    href: 'https://teamguru-frontend.netlify.app/',
+    code: 'https://github.com/emmanuelonyeka/nairasave/', 
+    col2: `${base}videos/nairasave.mp4`,
     desktopImages: [
       `${base}images/nairasave.png`,
       `${base}images/primenest.png`,
@@ -119,9 +119,9 @@ const PROJECTS = [
       'React + TypeScript architecture with full type safety',
     ],
     tech: ['React', 'TypeScript', 'Tailwind', 'GSAP'],
-    href: '#',
-    code: 'https://github.com/emmanuelonyeka/solara-jets', 
-    col2: `${base}images/solara.png`,
+    href: 'https://emmanuelonyeka.github.io/solara-aviation/',
+    code: 'https://github.com/emmanuelonyeka/solara-aviation', 
+    col2: `${base}videos/solara2.mp4`,
     desktopImages: [
       `${base}images/solara.png`,
       `${base}images/primenest.png`,
@@ -157,7 +157,7 @@ export default function ProjectsSection() {
     >
       <div className="container">
         <FadeIn delay={0} y={30} as="div" className="section-label-wrap">
-          <span className="section-eyebrow">02. Work</span>
+          <span className="section-eyebrow">03. Work</span>
           <h2 className="section-title">Selected Work</h2>
         </FadeIn>
       </div>
@@ -193,7 +193,7 @@ export default function ProjectsSection() {
           />
         ))}
 
-        <div style={{ height: '60vh', pointerEvents: 'none' }} />
+        <div className="h-20 md:h-[60vh] pointer-events-none" />
       </div>
 
       {/* Editorial layout source code note */}

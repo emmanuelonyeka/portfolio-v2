@@ -49,7 +49,7 @@ export default function BeliefsSection() {
 
         {/* Section heading — same alignment as every other section */}
         <FadeIn delay={0} y={30} as="div" className="section-label-wrap">
-          <span className="section-eyebrow">05. Beliefs</span>
+          <span className="section-eyebrow">06. Beliefs</span>
           <h2 className="section-title">How I think</h2>
         </FadeIn>
 

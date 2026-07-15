@@ -525,25 +525,33 @@ html.theme-light .theme-icon-moon { display: block; }
   -webkit-backdrop-filter: blur(24px);
   border-top: 1px solid var(--border);
   border-radius: 0 0 16px 16px;
-  padding: 0; 
-  max-height: 0;
-  opacity: 0;
-  transform: translateY(-10px); 
+  padding: 0;
   pointer-events: none;
   overflow: hidden;
   z-index: 999;
-  transition: opacity 0.35s ease-in-out, 
-              max-height 0.5s ease-in-out, 
-              transform 0.5s ease-in-out,
-              box-shadow 0.35s ease-in-out;
+  /* Default (closed) state */
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-12px);
+  transition:
+    max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.3s ease,
+    transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s ease;
 }
 
 .mobile-menu.open {
+  max-height: 600px;
   opacity: 1;
-  max-height: 500px;
-  transform: translateY(0); 
+  transform: translateY(0);
   pointer-events: auto;
   box-shadow: 0 12px 10px -10px rgba(0, 0, 0, 0.768);
+  /* Open uses ease-out (fast start, slow end = dropdown feel) */
+  transition:
+    max-height 0.45s cubic-bezier(0, 0, 0.2, 1),
+    opacity 0.3s ease,
+    transform 0.4s cubic-bezier(0, 0, 0.2, 1),
+    box-shadow 0.3s ease;
 }
 
 .mobile-menu a:first-child {
@@ -551,7 +559,7 @@ html.theme-light .theme-icon-moon { display: block; }
 }
 
 .mobile-menu a:last-child {
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
 .mobile-link {
@@ -566,11 +574,13 @@ html.theme-light .theme-icon-moon { display: block; }
   border-bottom: 1px solid var(--border);
 }
 
-.mobile-link:last-child { border-bottom: none ; }
+.mobile-link:nth-last-child(2) { margin-bottom: 5px; }
 
-.mobile-link:hover {
-  color: var(--text-primary);
-  padding-left: 32px;
+@media (pointer: fine) {
+  .mobile-link:hover {
+    color: var(--text-primary);
+    padding-left: 32px;
+  }
 }
 
 .mobile-menu-cta {
@@ -588,7 +598,13 @@ html.theme-light .theme-icon-moon { display: block; }
 }
 
 .mobile-menu-cta:hover {
-  opacity: 0.88;
+  opacity: 0.85;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px var(--accent-border);
+}
+
+@media (min-width: 400px) {
+  .mobile-link:nth-last-child(2) { border-bottom: none ; margin-bottom: 5px; }
 }
 
 @media (max-width: 400px) {
@@ -1008,7 +1024,9 @@ html.theme-light .theme-icon-moon { display: block; }
   gap: clamp(20px, 4vw, 60px);
   padding: clamp(28px, 4vw, 48px) 0;
   border-top: 1px solid var(--border-subtle);
-  transition: border-color 0.3s ease;
+  opacity: 0.65; /* Demands focus by dimming non-focused steps */
+  transform: scale(0.98); /* Default un-focused state is slightly smaller */
+  transition: border-color 0.4s ease, transform 0.4s ease, opacity 0.4s ease;
 }
 
 .process-item:last-child {
@@ -1016,6 +1034,7 @@ html.theme-light .theme-icon-moon { display: block; }
 }
 
 .process-item:hover {
+  opacity: 0.8; /* Subtle highlight when hover targeting an inactive step */
   border-color: var(--accent-border);
 }
 
@@ -1026,7 +1045,7 @@ html.theme-light .theme-icon-moon { display: block; }
   color: var(--text-primary);
   opacity: 0.1;
   flex-shrink: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease, color 0.3s ease;
   font-variant-numeric: tabular-nums;
 }
 
@@ -1067,6 +1086,28 @@ html.theme-light .theme-icon-moon { display: block; }
 .process-item.active-scroll .process-num {
   color: var(--accent) !important;
   opacity: 1 !important;
+}
+
+/* Transitions the active step's borders, resets opacity to full, and scales up slightly */
+.process-item.active-scroll {
+  border-top-color: var(--accent) !important;
+  opacity: 1 !important;
+  transform: scale(1.02) !important; /* Subtle 2% zoom to pop forward */
+}
+
+/* Ensure hover does not override the full active opacity */
+.process-item.active-scroll:hover {
+  opacity: 1 !important;
+}
+
+/* Transitions the active step's bottom boundary (the top border of the next item) */
+.process-item.active-scroll + .process-item {
+  border-top-color: var(--accent) !important;
+}
+
+/* Handles the explicit bottom border transition for the last element in the list */
+.process-item.active-scroll:last-child {
+  border-bottom-color: var(--accent) !important;
 }
 
 /* =============================================
@@ -1539,18 +1580,18 @@ html.theme-light .theme-icon-moon { display: block; }
 }
 
 /* =============================================
-   PRICING SECTION
+   packages SECTION
 ============================================= */
-.pricing-section { background: transparent; }
+.packages-section { background: transparent; }
 
-.pricing-grid {
+.packages-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   align-items: start;
 }
 
-.pricing-card {
+.packages-card {
   background: rgba(255,255,255,0.02);
   border: 1px solid var(--border);
   border-radius: 16px;
@@ -1562,21 +1603,21 @@ html.theme-light .theme-icon-moon { display: block; }
   transition: border-color 0.3s ease, transform 0.3s ease;
 }
 
-.pricing-card:hover {
+.packages-card:hover {
   border-color: var(--border-strong);
   transform: translateY(-4px);
 }
 
-.pricing-card--highlight {
+.packages-card--highlight {
   border-color: var(--accent-border);
   background: rgba(79,156,255,0.04);
 }
 
-.pricing-card--highlight:hover {
+.packages-card--highlight:hover {
   border-color: rgba(79,156,255,0.5);
 }
 
-.pricing-popular-badge {
+.packages-popular-badge {
   position: absolute;
   top: -14px;
   left: 50%;
@@ -1592,16 +1633,16 @@ html.theme-light .theme-icon-moon { display: block; }
   white-space: nowrap;
 }
 
-.pricing-header { display: flex; flex-direction: column; gap: 8px; }
+.packages-header { display: flex; flex-direction: column; gap: 8px; }
 
-.pricing-tier {
+.packages-tier {
   font-size: 1.1rem;
   font-weight: 700;
   color: var(--text-primary);
   letter-spacing: -0.01em;
 }
 
-.pricing-scope-badge {
+.packages-scope-badge {
   font-size: 0.78rem;
   font-weight: 600;
   color: var(--accent);
@@ -1615,17 +1656,17 @@ html.theme-light .theme-icon-moon { display: block; }
   background: var(--accent-soft);
 }
 
-.pricing-tag {
+.packages-tag {
   font-size: 0.78rem;
   color: var(--text-muted);
 }
 
-.pricing-per {
+.packages-per {
   font-size: 0.85rem;
   color: var(--text-muted);
 }
 
-.pricing-features {
+.packages-features {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -1635,7 +1676,7 @@ html.theme-light .theme-icon-moon { display: block; }
   flex: 1;
 }
 
-.pricing-feature {
+.packages-feature {
   display: flex;
   align-items: flex-start;
   gap: 10px;
@@ -1644,13 +1685,13 @@ html.theme-light .theme-icon-moon { display: block; }
   line-height: 1.5;
 }
 
-.pricing-feature svg {
+.packages-feature svg {
   color: var(--accent);
   flex-shrink: 0;
   margin-top: 2px;
 }
 
-.pricing-cta {
+.packages-cta {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1665,26 +1706,26 @@ html.theme-light .theme-icon-moon { display: block; }
   transition: all 0.3s ease;
 }
 
-.pricing-cta:hover {
+.packages-cta:hover {
   border-color: var(--accent-border);
   color: var(--accent);
   transform: translateX(4px);
 }
 
-.pricing-cta--highlight {
+.packages-cta--highlight {
   background: var(--accent);
   border-color: var(--accent);
   color: #fff;
 }
 
-.pricing-cta--highlight:hover {
+.packages-cta--highlight:hover {
   background: rgba(79,156,255,0.85);
   border-color: transparent;
   color: #fff;
   transform: translateX(4px);
 }
 
-.pricing-note {
+.packages-note {
   text-align: center;
   font-size: 0.85rem;
   color: var(--text-muted);
@@ -1692,7 +1733,7 @@ html.theme-light .theme-icon-moon { display: block; }
   line-height: 1.6;
 }
 
-.pricing-note a {
+.packages-note a {
   color: var(--accent);
   text-decoration: none;
   border-bottom: 1px solid var(--accent-border);
@@ -1700,12 +1741,12 @@ html.theme-light .theme-icon-moon { display: block; }
   text-wrap: nowrap;
 }
 
-.pricing-note a:hover {
+.packages-note a:hover {
   border-color: var(--accent);
 }
 
 @media (max-width: 900px) {
-  .pricing-grid {
+  .packages-grid {
     grid-template-columns: 1fr;
     max-width: 400px;
     margin: 0 auto;
@@ -2345,9 +2386,9 @@ html.theme-light .theme-icon-moon { display: block; }
   .p-card-right {
     order: -1;
     aspect-ratio: 16 / 10;
-    width: 100%;
     max-height: 220px;
     border-radius: 10px;
+    margin-top: 10px;
     overflow: hidden;
   }
 
@@ -2778,9 +2819,27 @@ html.theme-light .theme-icon-moon { display: block; }
   background: var(--surface);
   border-top: 1px solid var(--border);
   border-radius: 0 0 16px 16px;
-  padding: 1.25rem 2rem; /* Exact matching spacing across all modes */
+  padding: 1.25rem 2rem;
   min-height: 80px;
   z-index: 10;
+  display: flex;
+  gap: 12px;
+}
+
+@media (max-width: 370px) {
+  .proj-modal-footer {
+    flex-direction: column;
+    padding: 1rem 1.25rem !important;
+    gap: 8px;
+    min-height: auto;
+  }
+  .proj-modal-footer .p-card-btn,
+  .proj-modal-footer .p-card-details-btn {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    padding: 10px !important;
+  }
 }
 
 @media (max-width: 600px) {
@@ -3018,6 +3077,8 @@ html.theme-light .lightbox-close:hover {
   animation: modal-slide-in 0.3s cubic-bezier(.22,1,.36,1);
 }
 
+
+
 /* =============================================
    FLOATING WHATSAPP EXTENSION
 ============================================= */
@@ -3037,7 +3098,7 @@ html.theme-light .lightbox-close:hover {
   padding: clamp(1.5rem, 4vw, 2.5rem);
   box-shadow: var(--shadow-card);
   max-width: 820px;
-  margin: 0 auto;
+  margin-top: 30px;
 }
 
 .luxury-contact-form {
@@ -3074,13 +3135,13 @@ html.theme-light .lightbox-close:hover {
 
 .form-input-field input,
 .form-input-field textarea {
-  background: rgba(0, 0, 0, 0.15);
+  background: rgba(0, 0, 0, 0.1);
   border: 1px solid var(--border-strong);
   border-radius: 8px;
   color: var(--text-primary);
   padding: 12px 16px;
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.9rem;
+  font-size: 1rem;
   transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
@@ -3088,7 +3149,7 @@ html.theme-light .lightbox-close:hover {
 .form-input-field textarea:focus {
   outline: none;
   border-color: var(--accent);
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.25);
 }
 
 .form-input-field input.input-error,
@@ -3172,4 +3233,66 @@ html.theme-light .lightbox-close:hover {
 @keyframes tooltip-slide-down {
   from { opacity: 0; transform: translateY(-4px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+
+/* =============================================
+   EXTREMELY NARROW SCREEN OPTIMISATIONS (< 440px / < 370px / < 340px)
+============================================= */
+@media (max-width: 440px) {
+  .contact-link-pill {
+    padding: 12px 14px;
+    gap: 10px;
+  }
+  .contact-link-value {
+    font-size: 0.8rem;
+    word-break: break-all;
+  }
+}
+
+@media (max-width: 370px) {
+  .status-pill {
+    padding: 6px 12px;
+    font-size: 0.72rem;
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+  .hero-intro {
+    font-size: 0.72rem;
+    letter-spacing: 2px;
+    margin-bottom: 14px;
+  }
+  .hero-description {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+  .hero-name {
+    font-size: 2.2rem;
+    margin-bottom: 16px;
+  }
+}
+
+@media (max-width: 340px) {
+  /* Scale padding down so input boxes have breathing room on 300px viewports */
+  .container {
+    padding: 0 12px !important;
+  }
+  .contact-form-container {
+    padding: 16px 12px !important;
+  }
+  .proj-modal-sticky-header,
+  .proj-modal-body {
+    padding: 1rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Scale the main card preview (desktop image & looping video) and remove the height cap */
+  .p-card-right {
+    width: 92% !important;
+    justify-self: center !important; /* Overrides CSS Grid stretch behavior to respect the 92% width limit */
+    margin: 0 auto 12px !important;   /* Centered with a clean gap before the text starts */
+    max-height: none !important;     /* Allows the 16/10 aspect ratio to scale the height dynamically */
+    aspect-ratio: 16 / 10 !important;
+  }
 }

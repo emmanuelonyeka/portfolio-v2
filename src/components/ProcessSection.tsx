@@ -29,20 +29,18 @@ export default function ProcessSection() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const viewportCenter = window.innerHeight / 2
-      const rangeOffset = window.innerHeight * 0.3 // 30vh up and down boundaries
-      const rangeMin = viewportCenter - rangeOffset
-      const rangeMax = viewportCenter + rangeOffset
+      // Calculate the exact center of the vertical viewport, excluding the header height
+      const navHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--navbar-height')) || 80
+      const viewportCenter = navHeight + (window.innerHeight - navHeight) / 2
 
       const newActive: Record<string, boolean> = {}
 
       stepsRef.current.forEach((el, index) => {
         if (!el) return
         const rect = el.getBoundingClientRect()
-        const elementCenter = rect.top + rect.height / 2
         
-        // Element's center must sit inside the active viewport 30vh window (20vh - 80vh)
-        if (elementCenter >= rangeMin && elementCenter <= rangeMax) {
+        // A step is active strictly when the viewport's center line is within its vertical bounds
+        if (rect.top <= viewportCenter && rect.bottom >= viewportCenter) {
           newActive[STEPS[index].num] = true
         }
       })
@@ -60,18 +58,14 @@ export default function ProcessSection() {
       className="section process-section" 
       id="process"
       style={{
-        background: 'var(--border-light)',
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
-        borderTop: '1px solid var(--border-subtle)',
-        borderBottom: '1px solid var(--border-subtle)',
+        background: 'transparent',
       }}
       >
       <div className="container">
 
         {/* Static non-animating header avoids flickering triggers entirely on scroll */}
         <div className="section-label-wrap">
-          <span className="section-eyebrow">03. Process</span>
+          <span className="section-eyebrow">05. Process</span>
           <h2 className="section-title">How I work</h2>
         </div>
 

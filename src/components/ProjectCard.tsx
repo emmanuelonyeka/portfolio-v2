@@ -48,7 +48,8 @@ export default function ProjectCard({
   inProgress = false,
 }: ProjectCardProps) {
   const [modalOpen, setModalOpen] = useState(false)
-  const [lightboxImage, setLightboxImage] = useState<string | null>(null)
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
+  const [singleLightboxImage, setSingleLightboxImage] = useState<string | null>(null)
   const [viewMode, setViewMode] = useState<'desktop' | 'mobile'>('desktop')
   const [isMobileScreen, setIsMobileScreen] = useState(false)
 
@@ -147,7 +148,7 @@ export default function ProjectCard({
 
   useEffect(() => {
     const waFloat = document.getElementById('waFloat')
-    if (modalOpen || lightboxImage) {
+    if (modalOpen || lightboxIndex !== null || singleLightboxImage !== null) {
       document.body.classList.add('modal-open')
       waFloat?.classList.add('wa-float--hidden')
     } else {
@@ -158,11 +159,11 @@ export default function ProjectCard({
       document.body.classList.remove('modal-open')
       waFloat?.classList.remove('wa-float--hidden')
     }
-  }, [modalOpen, lightboxImage])
+  }, [modalOpen, lightboxIndex, singleLightboxImage])
 
   // Close modal when any nav anchor link is clicked
     useEffect(() => {
-      if (!modalOpen && !lightboxImage) return
+      if (!modalOpen && lightboxIndex === null && singleLightboxImage === null) return
 
       const handleNavClick = (e: MouseEvent) => {
         const target = e.target as HTMLElement
@@ -173,13 +174,46 @@ export default function ProjectCard({
         
         if (isAnchorLink && !isThemeToggle && !isMenuToggle) {
           setModalOpen(false)
-          setLightboxImage(null)
+          setLightboxIndex(null)
+          setSingleLightboxImage(null)
         }
       }
 
       document.addEventListener('click', handleNavClick)
       return () => document.removeEventListener('click', handleNavClick)
-    }, [modalOpen, lightboxImage])
+    }, [modalOpen, lightboxIndex, singleLightboxImage])
+
+  // Keyboard navigation for open carousel lightbox modal
+  useEffect(() => {
+    if (lightboxIndex === null) return
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') {
+        setLightboxIndex((prev) => (prev !== null ? (prev - 1 + N) % N : 0))
+      } else if (e.key === 'ArrowRight') {
+        setLightboxIndex((prev) => (prev !== null ? (prev + 1) % N : 0))
+      } else if (e.key === 'Escape') {
+        setLightboxIndex(null)
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [lightboxIndex, N])
+
+  // Keyboard listener to close the single image lightbox modal
+  useEffect(() => {
+    if (singleLightboxImage === null) return
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setSingleLightboxImage(null)
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [singleLightboxImage])
 
   return (
     <>
@@ -193,7 +227,9 @@ export default function ProjectCard({
           paddingBottom: isMobileScreen ? 0 : `${PEEK}px`,
           paddingTop: isMobileScreen ? `${TAB_HEIGHT + TAB_STEP + 8}px` : 0,
           zIndex: index + 1,
-          marginBottom: isMobileScreen ? '0px' : marginBottom,
+          marginBottom: isMobileScreen
+            ? (index === total - 1 ? '0' : '28px')
+            : marginBottom,
         }}
       >
         <motion.div
@@ -270,10 +306,12 @@ export default function ProjectCard({
             className="p-card"
             style={{
               position: isMobileScreen ? 'relative' : 'absolute',
-              top: isMobileScreen ? 'unset' : TAB_HEIGHT,
+              top: isMobileScreen ? '40px' : TAB_HEIGHT,
               left: isMobileScreen ? 'unset' : 0,
               right: isMobileScreen ? 'unset' : 0,
-              height: isMobileScreen ? 'auto' : `calc(100vh - ${NAV_H + 24 + 3 * PEEK + TAB_HEIGHT + 24}px)`,
+              height: isMobileScreen
+                ? 'auto'
+                : `calc(100vh - ${NAV_H + 24 + 3 * PEEK + TAB_HEIGHT + 24}px)`,
               boxShadow: '0px -10px 30px rgba(0, 0, 0, 0.15), 0 20px 60px rgba(0, 0, 0, 0.25)',
             }}
           >
@@ -327,15 +365,28 @@ export default function ProjectCard({
 
             <div 
               className="p-card-right" 
-              onClick={() => setLightboxImage(col2)} 
+              onClick={() => setSingleLightboxImage(col2)} 
               style={{ cursor: 'pointer' }}
             >
-              <img
-                src={col2}
-                alt={`${name} screenshot`}
-                loading="lazy"
-                className="p-card-img"
-              />
+              {col2.endsWith('.mp4') || col2.endsWith('.webm') ? (
+                <video
+                  src={col2}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="metadata"
+                  className="p-card-img w-full h-full object-cover object-top"
+                  aria-label={`${name} preview video`}
+                />
+              ) : (
+                <img
+                  src={col2}
+                  alt={`${name} screenshot`}
+                  loading="lazy"
+                  className="p-card-img"
+                />
+              )}
             </div>
           </div>
 
@@ -422,9 +473,9 @@ export default function ProjectCard({
                         <div
                           key={i}
                           className={`carousel-slide ${isActive ? 'active' : ''}`}
-                          onClick={() => setLightboxImage(img)}
+                          onClick={() => setLightboxIndex(i % N)}
                           style={{
-                            '--carousel-aspect': viewMode === 'desktop' ? '16 / 10' : '10 / 16'
+                            '--carousel-aspect': viewMode === 'desktop' ? '16 / 10' : '9 / 19.5'
                           } as React.CSSProperties}
                         >
                           <img
@@ -490,7 +541,7 @@ export default function ProjectCard({
               </div>
             </div>
 
-            <div className="proj-modal-footer" style={{ display: 'flex', gap: 12 }}>
+            <div className="proj-modal-footer">
               <a
                 href={href}
                 target="_blank"
@@ -521,17 +572,17 @@ export default function ProjectCard({
         </div>
       )}
 
-      {/* Lightbox view overlay (click overlay dismiss is enabled) */}
-      {lightboxImage && (
+      {/* Single Image Lightbox view overlay (from the static project card) */}
+      {singleLightboxImage !== null && (
         <div
           className="lightbox-overlay"
-          onClick={() => setLightboxImage(null)}
+          onClick={() => setSingleLightboxImage(null)}
           role="dialog"
           aria-modal="true"
         >
           <button
             className="lightbox-close"
-            onClick={() => setLightboxImage(null)}
+            onClick={() => setSingleLightboxImage(null)}
             aria-label="Close image lightbox"
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="22" height="22">
@@ -539,12 +590,85 @@ export default function ProjectCard({
               <line x1="6" y1="6" x2="18" y2="18"/>
             </svg>
           </button>
+          {singleLightboxImage.endsWith('.mp4') || singleLightboxImage.endsWith('.webm') ? (
+            <video
+              src={singleLightboxImage}
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="metadata"
+              className="lightbox-img"
+              onClick={e => e.stopPropagation()}
+            />
+          ) : (
+            <img
+              src={singleLightboxImage}
+              alt={`${name} screenshot`}
+              className="lightbox-img"
+              onClick={e => e.stopPropagation()}
+            />
+          )}
+        </div>
+      )}
+
+      {/* Carousel Navigation Lightbox view overlay (from the case study modal) */}
+      {lightboxIndex !== null && (
+        <div
+          className="lightbox-overlay"
+          onClick={() => setLightboxIndex(null)}
+          role="dialog"
+          aria-modal="true"
+        >
+          <button
+            className="lightbox-close"
+            onClick={() => setLightboxIndex(null)}
+            aria-label="Close image lightbox"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="22" height="22">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+
+          {/* Previous Button */}
+          <button
+            className="carousel-btn carousel-btn--prev"
+            style={{ left: '20px', width: '44px', height: '44px' }}
+            onClick={(e) => {
+              e.stopPropagation()
+              setLightboxIndex((prev) => (prev !== null ? (prev - 1 + N) % N : 0))
+            }}
+            aria-label="Previous image"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="20" height="20">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+          </button>
+
+          {/* Image Display */}
           <img
-            src={lightboxImage}
-            alt="Zoomed screenshot"
+            src={activeImages[lightboxIndex]}
+            alt={`${name} screenshot`}
+            loading="lazy"
             className="lightbox-img"
             onClick={e => e.stopPropagation()}
           />
+
+          {/* Next Button */}
+          <button
+            className="carousel-btn carousel-btn--next"
+            style={{ right: '20px', width: '44px', height: '44px' }}
+            onClick={(e) => {
+              e.stopPropagation()
+              setLightboxIndex((prev) => (prev !== null ? (prev + 1) % N : 0))
+            }}
+            aria-label="Next image"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="20" height="20">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </button>
         </div>
       )}
     </>

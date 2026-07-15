@@ -22,10 +22,11 @@ export default function FadeIn({
   style,
   as = 'div',
 }: FadeInProps) {
-  const MotionComponent = motion(as as 'div')
+  // Reference pre-declared static motion tags directly to prevent remounting instances on render
+  const Tag = (motion[as as keyof typeof motion] || motion.div) as any
 
   return (
-    <MotionComponent
+    <Tag
       className={className}
       style={style}
       initial={{ opacity: 0, x, y }}
@@ -38,6 +39,6 @@ export default function FadeIn({
       }}
     >
       {children}
-    </MotionComponent>
+    </Tag>
   )
 }

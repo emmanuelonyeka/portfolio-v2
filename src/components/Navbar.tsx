@@ -44,13 +44,6 @@ export default function Navbar() {
     }
     updateNavbarHeight()
 
-    const onScroll = () => {
-      navbar?.classList.toggle('scrolled', window.scrollY > 60)
-      updateNavbarHeight()
-    }
-    window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', updateNavbarHeight, { passive: true })
-
     const themeToggle = document.getElementById('themeToggle')
     const updateToggleLabel = () => {
       if (!themeToggle) return
@@ -159,18 +152,30 @@ export default function Navbar() {
     const activeLayer = document.getElementById('navLinksActive')
     if (!wrapper || !indicator || !activeLayer) return
 
-    let activeIndex = 0
+    let activeIndex = -1
     let slideTimer: ReturnType<typeof setTimeout>
 
     function movePillTo(index: number, animate = true) {
+      if (index === -1) {
+        indicator!.style.transition = animate
+          ? 'transform 0.42s cubic-bezier(.34,1.56,.64,1), width 0.42s cubic-bezier(.34,1.56,.64,1), background 0.2s ease, opacity 0.3s'
+          : 'none'
+        indicator!.style.opacity = '0'
+        indicator!.style.width = '0px'
+        activeLayer!.style.clipPath = `inset(0px 100% 0px 0px round 999px)`
+        activeIndex = -1
+        return
+      }
+
       const link = baseLinks[index]
       if (!link) return
       const wRect = wrapper!.getBoundingClientRect()
       const lRect = link.getBoundingClientRect()
       const pillLeft = lRect.left - wRect.left - 5
       indicator!.style.transition = animate
-        ? 'transform 0.42s cubic-bezier(.34,1.56,.64,1), width 0.42s cubic-bezier(.34,1.56,.64,1), background 0.2s ease'
+        ? 'transform 0.42s cubic-bezier(.34,1.56,.64,1), width 0.42s cubic-bezier(.34,1.56,.64,1), background 0.2s ease, opacity 0.3s'
         : 'none'
+      indicator!.style.opacity = '1'
       indicator!.style.transform = `translateX(${pillLeft}px)`
       indicator!.style.width = `${lRect.width}px`
       activeLayer!.style.clipPath = `inset(0px calc(100% - ${pillLeft + lRect.width}px) 0px ${pillLeft}px round 999px)`
@@ -188,47 +193,69 @@ export default function Navbar() {
     })
 
     const sectionMap: Record<string, number> = {
-      hero: 0, about: 0, work: 1, skills: 2, services: 3, beliefs: 3, pricing: 3, contact: 4
+      hero: -1,
+      about: 0,
+      skills: 1,
+      work: 2,
+      services: 3,
+      process: -1,
+      beliefs: -1,
+      packages: -1,
+      contact: 4
     }
-    const sectionIds = ['hero', 'about', 'work', 'skills', 'services', 'beliefs', 'pricing', 'contact']
+    const sectionIds = ['hero', 'about', 'skills', 'work', 'services', 'process', 'beliefs', 'packages', 'contact']
     
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          if (isScrollingToAnchor) return
-          const idx = sectionMap[e.target.id]
-          if (idx !== undefined && idx !== activeIndex) {
-            onPillStart()
-            movePillTo(idx)
+    const onScroll = () => {
+      navbar?.classList.toggle('scrolled', window.scrollY > 60)
+      updateNavbarHeight()
+
+      if (isScrollingToAnchor) return
+
+      const navHeight = navbar?.offsetHeight ?? 80
+      const triggerOffset = navHeight + 40 // Trigger point below the header (approx. 120px)
+
+      let activeSecId = 'hero'
+
+      for (const id of sectionIds) {
+        const el = document.getElementById(id)
+        if (el) {
+          const rect = el.getBoundingClientRect()
+          // Check if the scroll trigger offset falls within the vertical bounds of this section
+          if (rect.top <= triggerOffset && rect.bottom >= triggerOffset) {
+            activeSecId = id
+            break
           }
         }
-      })
-    }, { threshold: 0.15, rootMargin: '-88px 0px -40% 0px' })
+      }
 
-    sectionIds.forEach(id => {
-      const el = document.getElementById(id)
-      if (el) obs.observe(el)
-    })
+      const idx = sectionMap[activeSecId]
+      if (idx !== undefined && idx !== activeIndex) {
+        onPillStart()
+        movePillTo(idx)
+      }
+    }
+
+    const onResize = () => {
+      updateNavbarHeight()
+      movePillTo(activeIndex, false)
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onResize, { passive: true })
 
     requestAnimationFrame(() => setTimeout(() => {
       updateNavbarHeight()
-      movePillTo(0, false)
+      onScroll()
     }, 150))
-    
-    window.addEventListener('resize', () => {
-      updateNavbarHeight()
-      movePillTo(activeIndex, false)
-    })
 
     return () => {
       window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', updateNavbarHeight)
+      window.removeEventListener('resize', onResize)
       themeToggle?.removeEventListener('click', onThemeToggle)
       mq.removeEventListener('change', systemHandler)
       toggle?.removeEventListener('click', onToggleClick)
       document.removeEventListener('click', onDocClick)
       anchorLinks.forEach(link => link.removeEventListener('click', onAnchorClick))
-      obs.disconnect()
     }
   }, [])
 
@@ -248,15 +275,15 @@ export default function Navbar() {
           <div className="nav-pill-indicator" id="navPillIndicator"></div>
           <nav className="nav-links nav-links--base" id="navLinksBase">
             <a href="#about"    className="nav-link" data-index="0">About</a>
-            <a href="#work"     className="nav-link" data-index="1">Work</a>
-            <a href="#skills"   className="nav-link" data-index="2">Skills</a>
+            <a href="#skills"   className="nav-link" data-index="1">Skills</a>
+            <a href="#work"     className="nav-link" data-index="2">Work</a>
             <a href="#services" className="nav-link" data-index="3">Services</a>
             <a href="#contact"  className="nav-link" data-index="4">Contact</a>
           </nav>
           <nav className="nav-links nav-links--active" id="navLinksActive" aria-hidden="true">
             <a href="#about"    className="nav-link" tabIndex={-1}>About</a>
-            <a href="#work"     className="nav-link" tabIndex={-1}>Work</a>
             <a href="#skills"   className="nav-link" tabIndex={-1}>Skills</a>
+            <a href="#work"     className="nav-link" tabIndex={-1}>Work</a>
             <a href="#services" className="nav-link" tabIndex={-1}>Services</a>
             <a href="#contact"  className="nav-link" tabIndex={-1}>Contact</a>
           </nav>
@@ -312,8 +339,8 @@ export default function Navbar() {
       <div className="mobile-menu" id="mobileMenu">
         <div className='mobile-wrapper'>
           <a href="#about"    className="mobile-link" data-index="0">About</a>
-          <a href="#work"     className="mobile-link" data-index="1">Work</a>
-          <a href="#skills"   className="mobile-link" data-index="2">Skills</a>
+          <a href="#skills"   className="mobile-link" data-index="1">Skills</a>
+          <a href="#work"     className="mobile-link" data-index="2">Work</a>
           <a href="#services" className="mobile-link" data-index="3">Services</a>
           <a href="#contact"  className="mobile-link" data-index="4">Contact</a>
           <a href="#contact" className="mobile-menu-cta">Work With Me</a>

@@ -11,6 +11,7 @@ const SKILLS = [
       { name: 'JavaScript (ES6+)', note: 'Vanilla & modern patterns' },
       { name: 'React', note: 'Hooks, context, composition' },
       { name: 'Tailwind CSS', note: 'Utility-first styling' },
+      { name: 'TypeScript', note: 'Type-safe JavaScript' },
       { name: 'Framer Motion', note: 'Scroll & gesture animation' },
       { name: 'GSAP', note: 'Timeline & ScrollTrigger' },
       { name: 'Git & GitHub', note: 'Version control & collaboration' },
@@ -23,11 +24,13 @@ const SKILLS = [
     tagColor: '#f4c04e',
     title: 'Currently learning',
     items: [
-      { name: 'TypeScript', note: 'Type-safe JavaScript' },
-      { name: 'Next.js', note: 'SSR, SSG, App Router' },
-      { name: 'Node.js', note: 'Server-side JavaScript' },
-      { name: 'REST APIs', note: 'Fetching & integrating data' },
-      { name: 'Supabase', note: 'Backend as a service' },
+      { name: 'Next.js', note: 'App Router, Server Actions, SSR' },
+      { name: 'Node.js', note: 'Asynchronous event-driven runtime' },
+      { name: 'TanStack Query', note: 'Data fetching, caching, server state' },
+      { name: 'Zustand', note: 'Lightweight global state management' },
+      { name: 'Auth.js / Clerk', note: 'Secure user sessions & identity' },
+      { name: 'Drizzle ORM', note: 'Next-gen type-safe SQL query builder' },
+      { name: 'Supabase', note: 'BaaS with Auth, Database & Storage' },
     ],
   },
   {
@@ -35,10 +38,13 @@ const SKILLS = [
     tagColor: '#b07cff',
     title: 'Working toward',
     items: [
-      { name: 'PostgreSQL', note: 'Relational database' },
-      { name: 'Express.js', note: 'Node web framework' },
-      { name: 'Docker', note: 'Containerisation' },
-      { name: 'CI/CD', note: 'Automated deployment pipelines' },
+      { name: 'PostgreSQL', note: 'Advanced relational database design' },
+      { name: 'NestJS / Express', note: 'Scalable backend architectures' },
+      { name: 'Redis', note: 'In-memory caching and session store' },
+      { name: 'WebSockets (Socket.io)', note: 'Real-time bi-directional events' },
+      { name: 'Docker', note: 'Containerising environments' },
+      { name: 'CI/CD Pipelines', note: 'GitHub Actions, automated testing' },
+      { name: 'Cloud Infrastructure', note: 'AWS S3, Vercel Edge, Fly.io' },
     ],
   },
 ]
@@ -48,7 +54,11 @@ export default function SkillsSection() {
     <section className="section skills-section reveal-section" 
     id="skills"
     style={{
-        background: 'transparent'
+      background: 'var(--border-light)',
+      backdropFilter: 'blur(12px)',
+      WebkitBackdropFilter: 'blur(12px)',
+      borderTop: '1px solid var(--border-subtle)',
+      borderBottom: '1px solid var(--border-subtle)',
       }}
     >
       <div className="container">

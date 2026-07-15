@@ -8,7 +8,7 @@ import AboutSection from './components/AboutSection'
 import SkillsSection from './components/SkillsSection'
 import ServicesSection from './components/ServicesSection'
 import BeliefsSection from './components/BeliefsSection'
-import PricingSection from './components/PricingSection'
+import PackagesSection from './components/PackagesSection'
 import ContactSection from './components/ContactSection'
 import CustomCursor from './components/CustomCursor'
 import Footer from './components/Footer'
@@ -43,7 +43,7 @@ export default function App() {
         <ServicesSection />
         <ProcesssSection />
         <BeliefsSection />
-        <PricingSection />
+        <PackagesSection />
         <ContactSection />
         <Footer />
       </main>

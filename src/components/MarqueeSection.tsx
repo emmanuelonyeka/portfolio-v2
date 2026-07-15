@@ -1,3 +1,4 @@
+const base = import.meta.env.BASE_URL
 import { useEffect, useRef } from 'react'
 
 const ALL_IMAGES = [

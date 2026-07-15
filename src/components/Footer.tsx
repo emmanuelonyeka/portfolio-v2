@@ -2,7 +2,16 @@ export default function Footer() {
     const year = new Date().getFullYear()
   
     return (
-      <footer className="footer">
+      <footer 
+      className="footer"
+      style={{
+        background: 'var(--border-light)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+        borderTop: '1px solid var(--border-subtle)',
+        borderBottom: '1px solid var(--border-subtle)',
+      }}
+      >
         <div className="container footer-inner">
   
           <div className="footer-brand">
@@ -24,9 +33,10 @@ export default function Footer() {
             <h4 className="footer-col-title">Sections</h4>
             <ul className="footer-links">
               <li><a href="#about">About</a></li>
-              <li><a href="#work">Selected Work</a></li>
               <li><a href="#skills">Skills</a></li>
+              <li><a href="#work">Selected Work</a></li>
               <li><a href="#services">Services</a></li>
+              <li><a href="#process">Process</a></li>
               <li><a href="#beliefs">Beliefs</a></li>
               <li><a href="#pricing">Pricing</a></li>
               <li><a href="#contact">Contact</a></li>
@@ -52,7 +62,7 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="https://wa.me/2348169269415" target="_blank" rel="noopener noreferrer">
+                <a href="https://wa.me/2348147931141" target="_blank" rel="noopener noreferrer">
                   WhatsApp
                 </a>
               </li>
