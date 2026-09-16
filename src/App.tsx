@@ -1,50 +1,81 @@
-import SideSocials from './components/SideSocials'
-import SideEmail from './components/SideEmail'
-import ParticleCanvas from './components/ParticleCanvas'
-import Navbar from './components/Navbar'
-import HeroSection from './components/HeroSection'
-import MarqueeSection from './components/MarqueeSection'
-import AboutSection from './components/AboutSection'
-import SkillsSection from './components/SkillsSection'
-import ServicesSection from './components/ServicesSection'
-import BeliefsSection from './components/BeliefsSection'
-import PackagesSection from './components/PackagesSection'
-import ContactSection from './components/ContactSection'
-import CustomCursor from './components/CustomCursor'
-import Footer from './components/Footer'
-import WhatsAppFloat from './components/WhatsAppFloat'
-import ScrollProgress from './components/ScrollProgress'
-import ProjectsSection from './components/ProjectsSection'
-import ProcesssSection from './components/ProcessSection'
+import SideSocials from './components/global/SideSocials'
+import SideEmail from './components/global/SideEmail'
+import Navbar from './components/layout/Navbar'
+import Hero from './components/sections/Hero'
+import Marquee from './components/sections/Marquee'
+import About from './components/sections/About'
+import Skills from './components/sections/Skills'
+import Services from './components/sections/Services'
+import Beliefs from './components/sections/Beliefs'
+import Packages from './components/sections/Packages'
+import Contact from './components/sections/Contact'
+import Footer from './components/layout/Footer'
+import { Divider } from './components/ui/Divider'
+import { useScrollRestoration } from './hooks/useScrollRestoration'
+import { useSmoothScroll } from './hooks/useSmoothScroll'
+import WhatsAppFloat from './components/global/WhatsAppFloat'
+import ScrollProgress from './components/global/ScrollProgress'
+import Projects from './components/sections/Projects'
+import Process from './components/sections/Process'
+import { site, asset } from './config/site'
 
 export default function App() {
+  useSmoothScroll()
+  useScrollRestoration()
+
   return (
     <>
-      <ParticleCanvas />
-      <svg className="grain-overlay" xmlns="http://www.w3.org/2000/svg">
-        <filter id="grainFilter">
-          <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch"/>
-        </filter>
-        <rect width="100%" height="100%" filter="url(#grainFilter)"/>
-      </svg>
-      <CustomCursor />
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
+      <div className="ambient-backdrop" aria-hidden="true" />
+      <div className="grain-overlay" aria-hidden="true" />
       <ScrollProgress />
       <WhatsAppFloat />
+      <Navbar />
       <SideSocials />
       <SideEmail />
-      <Navbar />
 
-      <main style={{ background: 'transparent', overflowX: 'clip', position: 'relative', zIndex: 2 }}>
-        <HeroSection />
-        <MarqueeSection />
-        <AboutSection />
-        <SkillsSection />
-        <ProjectsSection />
-        <ServicesSection />
-        <ProcesssSection />
-        <BeliefsSection />
-        <PackagesSection />
-        <ContactSection />
+      <main
+        id="main-content"
+        tabIndex={-1}
+        className="focus:outline-none"
+        style={{ background: 'transparent', overflowX: 'clip', position: 'relative', zIndex: 2 }}
+      >
+        <Hero />
+        <Marquee />
+        <About />
+        <Skills />
+        <Projects />
+        <Beliefs />
+
+        <Divider
+          eyebrow="Two ways to work together"
+          title="Choose the path that fits"
+          sub="Reviewing me for a frontend role? Use the résumé or email links below. If you need a site built, continue for services, process, and pricing."
+        >
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
+            <a
+              href={asset(site.resume)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="press lit inline-flex min-h-11 items-center rounded-full bg-accent px-6 py-3 text-[0.85rem] font-semibold text-accent-contrast no-underline transition-[background-color,transform] duration-300 hoverable:hover:-translate-y-0.5 hoverable:hover:bg-accent/90"
+            >
+              View Résumé
+            </a>
+            <a
+              href={`mailto:${site.email}`}
+              className="press inline-flex min-h-11 items-center rounded-full border border-accent/40 px-6 py-3 text-[0.85rem] font-semibold text-accent no-underline transition-[background-color,border-color] duration-300 hoverable:hover:border-accent hoverable:hover:bg-accent/12"
+            >
+              Email Me
+            </a>
+          </div>
+        </Divider>
+
+        <Services />
+        <Process />
+        <Packages />
+        <Contact />
         <Footer />
       </main>
     </>

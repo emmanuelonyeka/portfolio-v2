@@ -1,3 +1,9 @@
 node_modules/
 dist/
 .DS_Store
+*.log
+
+# Local env — never commit EmailJS or any other keys
+.env
+.env.local
+.env.*.local
