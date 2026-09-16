@@ -97,7 +97,7 @@ export default function Navbar() {
             id="themeToggle"
             onClick={toggle}
             aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
-            className={`press inline-flex items-center justify-center rounded-full border border-edge bg-edge-faint text-muted transition-[height,width,border-color,color] duration-[600ms] ease-smooth motion-reduce:transition-none hoverable:hover:border-accent/25 hoverable:hover:text-primary ${
+            className={`press inline-flex items-center justify-center rounded-full border border-edge bg-edge-faint text-muted transition-[height,width,transform,border-color,color] duration-[600ms] ease-smooth motion-reduce:transition-none hoverable:hover:border-accent/25 hoverable:hover:text-primary ${
               scrolled
                 ? 'compact-header-hit h-10 w-10 min-[769px]:h-11 min-[769px]:w-11'
                 : 'h-11 w-11'
@@ -110,7 +110,7 @@ export default function Navbar() {
             href={asset(site.resume)}
             target="_blank"
             rel="noopener noreferrer"
-            className="press hidden min-h-11 items-center gap-2 rounded-full border border-edge-strong px-4 py-2 text-[0.8rem] font-medium text-muted no-underline transition-[border-color,color] duration-200 hoverable:hover:border-accent/25 hoverable:hover:text-accent min-[641px]:inline-flex"
+            className="press hidden min-h-11 items-center gap-2 rounded-full border border-edge-strong px-4 py-2 text-[0.8rem] font-medium text-muted no-underline transition-[transform,border-color,color] duration-300 hoverable:hover:border-accent/25 hoverable:hover:text-accent min-[641px]:inline-flex"
           >
             Resume
             <Icon name="download" size={14} />

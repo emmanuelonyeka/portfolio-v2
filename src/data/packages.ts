@@ -62,7 +62,7 @@ export const packages: Package[] = [
 
 /** Shown under the package grid. */
 export const packagesNote =
-  'These are starting prices, not final quotes. Every project is different — tell me what you need and I will scope it honestly.'
+  'These are starting prices, not final quotes. Every project is different — tell me what you need and I will scope it honestly. International projects are quoted in USD or GBP.'
 
 /** The follow-up line and its WhatsApp link. */
 export const packagesHelp = {

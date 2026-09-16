@@ -308,7 +308,7 @@ export default function Hero() {
               href={asset(site.resume)}
               target="_blank"
               rel="noopener noreferrer"
-              className="press inline-flex min-h-11 items-center rounded-full border border-accent/40 px-7 py-3 text-[0.85rem] font-semibold text-accent no-underline transition-[background-color,border-color] duration-300 hoverable:hover:border-accent hoverable:hover:bg-accent/12"
+              className="press inline-flex min-h-11 items-center rounded-full border border-accent/40 px-7 py-3 text-[0.85rem] font-semibold text-accent no-underline transition-[transform,background-color,border-color] duration-300 hoverable:hover:border-accent hoverable:hover:bg-accent/12"
             >
               {heroCopy.secondaryCta.label}
             </a>

@@ -251,6 +251,41 @@ const SHAPES: Record<IconName, Shape> = {
       </>
     ),
   },
+  testing: {
+    children: (
+      <>
+        <path d="M9 3v5l-4.5 9a2.5 2.5 0 0 0 2.25 3.5h10.5A2.5 2.5 0 0 0 19.5 17L15 8V3" />
+        <path d="M8 13h8M8 3h8" />
+        <path d="M9.5 16l1.5 1.5 3.5-3.5" />
+      </>
+    ),
+  },
+  postgresql: {
+    children: (
+      <>
+        <ellipse cx="12" cy="5" rx="7.5" ry="3" />
+        <path d="M4.5 5v6c0 1.65 3.36 3 7.5 3s7.5-1.35 7.5-3V5M4.5 11v6c0 1.65 3.36 3 7.5 3s7.5-1.35 7.5-3v-6" />
+      </>
+    ),
+  },
+  prisma: {
+    children: (
+      <>
+        <path d="M12.5 2.5L4 17.5l13 4 3-4-7.5-15z" />
+        <path d="M12.5 2.5L17 21.5M17 21.5l-4.5-4" />
+      </>
+    ),
+  },
+  api: {
+    children: (
+      <>
+        <circle cx="6" cy="12" r="2.5" />
+        <circle cx="18" cy="6" r="2.5" />
+        <circle cx="18" cy="18" r="2.5" />
+        <path d="M8.2 10.9l7.6-3.8M8.2 13.1l7.6 3.8" />
+      </>
+    ),
+  },
   accessibility: {
     children: (
       <>

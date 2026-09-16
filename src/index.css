@@ -129,6 +129,12 @@ html.theme-light .project-accent-text {
   color: var(--project-accent-light);
 }
 
+/* The case-study view selector uses a restrained brand tint in the light
+   theme; the shared navigation lens remains neutral. */
+html.theme-light .case-study-view-toggle {
+  --liquid-lens-bg: rgb(var(--accent-rgb) / 0.1);
+}
+
 .project-card-body {
   position: relative;
   z-index: 2;
@@ -175,6 +181,12 @@ html.theme-light .project-accent-text {
 
   .project-stack-tail {
     height: 60vh;
+  }
+
+  /* VISUAL TUNING: preserve the stack's scroll room while closing the empty
+     visual gap before its explanatory line. */
+  .project-summary {
+    margin-top: clamp(-6rem, -8vh, -4rem);
   }
 }
 

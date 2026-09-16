@@ -61,9 +61,14 @@ The release gate performs the strict TypeScript build, source/SEO checks, public
 
 Project case studies use lightweight shareable URLs such as `?case=solara-jets#work`; browser Back and Forward close or restore the correct dialog without adding a routing library.
 
-### Add a template checkout link
+### Control source and checkout links
 
-Add a real `purchaseUrl` to the matching entry in `src/data/projects.ts` only after its Gumroad or marketplace listing is live. That one value automatically adds the quiet `Template Available` badge, makes `Buy Template` the full-width case-study action, keeps `View Live Project` beside `Copy link`, and hides the source-code action for the paid template. Projects without a checkout URL keep their current live-project and source-code actions; no placeholder purchase links are rendered.
+`code` and `purchaseUrl` are independent optional fields in `src/data/projects.ts`:
+
+- Keep `code` only when a repository is intentionally public. NairaSave is the current public example.
+- Omit `code` for private or commercial work. A hidden button is not protection, so private repository URLs are not shipped in the production data.
+- Add `purchaseUrl` only after the real Gumroad or marketplace listing is live. It adds the `Template Available` badge and makes `Buy Template` the primary case-study action.
+- Until PrimeNest or Solara is listed, both fields remain absent: visitors can view the live project and copy its case-study link without seeing a placeholder purchase action.
 
 ## Final media library
 
@@ -77,6 +82,7 @@ All final media is included. Every project screenshot is a WebP below 100 KiB, p
 - The background atmosphere is static CSS rather than a continuously running canvas.
 - The project stack activates only at `900px × 840px` or larger; shorter or narrower viewports use normal flow.
 - Dialog focus trapping, keyboard navigation, keyboard-only focus rings, reduced motion, semantic landmarks, form errors, and 44px touch targets are built in. The scrolled mobile header keeps those targets while reducing its visible controls to an equal 40px height.
+- A static branded `public/404.html` gives unknown Netlify paths a real 404 response; a root React error boundary provides reload, home, and email recovery for unexpected render failures.
 - About and case-study dialogs stay centred at every width. On short-height and phone-landscape viewports, the project footer becomes normal scrolling content instead of consuming the visible modal height.
 - Canonical metadata, Open Graph/Twitter cards, ProfilePage/Person structured data, `robots.txt`, and `sitemap.xml` are included.
 
@@ -91,6 +97,8 @@ The named constants directly below `ABOUT REVEAL TUNING` in `src/components/sect
 
 The short-height project-footer condition lives beside `.case-study-footer` in `src/index.css`. Change its `max-height` values only if real-device screenshots show that the normal sticky footer still leaves too little reading room.
 
+The Process scale values are labelled `PROCESS MOTION TUNING` in `src/components/sections/Process.tsx`. The stacked-project closing-note offset is labelled `VISUAL TUNING` beside `.project-summary` in `src/index.css`. Comments elsewhere explain non-obvious browser behavior or architecture rather than repeating self-explanatory code.
+
 ## Deployment
 
-`netlify.toml` pins Node 20, publishes `dist`, and defines cache and security headers. Add the EmailJS environment values in the host dashboard before enabling the production form.
+`netlify.toml` pins Node 20, publishes `dist`, and defines cache and security headers. Add the EmailJS environment values in the host dashboard before enabling the production form. After the first production deploy, submit `/sitemap.xml` in Google Search Console and Bing Webmaster Tools, test the homepage in Google's Rich Results Test, and verify the Open Graph image with a social-card debugger.

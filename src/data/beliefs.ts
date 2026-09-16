@@ -23,6 +23,6 @@ export const beliefs: Belief[] = [
   },
 ]
 
-/** The pull quote in the left panel. Attributed to site.name at render. */
+/** The client-facing summary of the four operating principles. */
 export const beliefsQuote =
-  'Good frontend work should still hold together after the first impression — in its edge cases, accessibility, and handover.'
+  'A polished interface earns attention. Reliable behavior, accessibility, and clean handover earn trust.'

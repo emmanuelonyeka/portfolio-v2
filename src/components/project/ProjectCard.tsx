@@ -316,14 +316,14 @@ export default function ProjectCard({ index, total, onProgress, project }: Proje
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="project-action press inline-flex min-w-[130px] flex-auto items-center justify-center gap-2 rounded-lg bg-accent px-6 py-3 text-center text-[0.85rem] font-semibold text-accent-contrast no-underline transition-[background-color,transform] duration-200 hoverable:hover:-translate-y-0.5 hoverable:hover:bg-accent/90 min-[769px]:w-fit min-[769px]:flex-none"
+                  className="project-action press inline-flex min-w-[130px] flex-auto items-center justify-center gap-2 rounded-lg bg-accent px-6 py-3 text-center text-[0.85rem] font-semibold text-accent-contrast no-underline transition-[background-color,transform] duration-300 hoverable:hover:-translate-y-0.5 hoverable:hover:bg-accent/90 min-[769px]:w-fit min-[769px]:flex-none"
                 >
                   View Project
                   <Icon name="externalLink" size={13} />
                 </a>
                 <button
                   type="button"
-                  className="project-action press inline-flex min-w-[130px] flex-auto items-center justify-center gap-2 rounded-lg border border-edge-strong bg-transparent px-5 py-[11px] text-center text-[0.85rem] font-semibold text-muted transition-[border-color,color,background-color] duration-300 hoverable:hover:border-accent/25 hoverable:hover:bg-accent/8 hoverable:hover:text-accent min-[769px]:flex-none"
+                  className="project-action press inline-flex min-w-[130px] flex-auto items-center justify-center gap-2 rounded-lg border border-edge-strong bg-transparent px-5 py-[11px] text-center text-[0.85rem] font-semibold text-muted transition-[transform,border-color,color,background-color] duration-300 hoverable:hover:border-accent/25 hoverable:hover:bg-accent/8 hoverable:hover:text-accent min-[769px]:flex-none"
                   onPointerEnter={() => void loadCaseStudy()}
                   onFocus={() => void loadCaseStudy()}
                   onClick={openCaseStudy}
@@ -331,13 +331,13 @@ export default function ProjectCard({ index, total, onProgress, project }: Proje
                   Case Study
                   <Icon name="search" size={13} />
                 </button>
-                {!purchaseUrl && (
+                {code && (
                   <a
                     href={code}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`Source code for ${name} on GitHub`}
-                    className="project-action press inline-flex min-w-[130px] flex-auto items-center justify-center gap-2 rounded-lg border border-edge-strong bg-transparent px-5 py-[11px] text-[0.85rem] font-semibold text-muted transition-[border-color,color,background-color] duration-300 hoverable:hover:border-accent/25 hoverable:hover:bg-accent/8 hoverable:hover:text-accent min-[769px]:flex-none"
+                    className="project-action press inline-flex min-w-[130px] flex-auto items-center justify-center gap-2 rounded-lg border border-edge-strong bg-transparent px-5 py-[11px] text-[0.85rem] font-semibold text-muted transition-[transform,border-color,color,background-color] duration-300 hoverable:hover:border-accent/25 hoverable:hover:bg-accent/8 hoverable:hover:text-accent min-[769px]:flex-none"
                   >
                     <Icon name="github" size={15} />
                     Source Code
@@ -388,7 +388,7 @@ export default function ProjectCard({ index, total, onProgress, project }: Proje
                     aria-controls={`project-preview-${slug}`}
                     aria-pressed={isPreviewPlaying}
                     aria-label={`${isPreviewPlaying ? 'Pause' : 'Play'} ${name} preview`}
-                    className="press absolute bottom-3 right-3 z-[2] inline-flex min-h-10 items-center justify-center rounded-full border border-white/25 bg-black/75 px-3.5 text-xs font-semibold text-white transition-colors duration-200 hoverable:hover:bg-black/90"
+                    className="press absolute bottom-3 right-3 z-[2] inline-flex min-h-10 items-center justify-center rounded-full border border-white/25 bg-black/75 px-3.5 text-xs font-semibold text-white transition-[transform,background-color,border-color] duration-300 hoverable:hover:bg-black/90"
                   >
                     {isPreviewPlaying ? 'Pause preview' : 'Play preview'}
                   </button>

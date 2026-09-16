@@ -17,8 +17,8 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# Public media is intentionally not immutable: the final project screenshots
-# and videos will replace the current placeholders under the same filenames.
+# Public media uses stable filenames so a corrected export can replace an asset
+# without changing component data. Revalidate daily rather than caching forever.
 [[headers]]
   for = "/images/*"
   [headers.values]

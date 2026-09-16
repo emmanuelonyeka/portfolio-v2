@@ -3,6 +3,10 @@ import { processSteps } from '../../data/process'
 import { Section } from '../ui/Section'
 import { SectionHeading } from '../ui/SectionHeading'
 
+/* PROCESS MOTION TUNING: keep the centred step legible without shrinking its neighbours. */
+const ACTIVE_SCALE = 'scale-[1.02]'
+const RESTING_SCALE = 'scale-100'
+
 export default function Process() {
   const [activeSteps, setActiveSteps] = useState<ReadonlySet<number>>(() => new Set())
   const stepRefs = useRef<(HTMLElement | null)[]>([])
@@ -104,7 +108,7 @@ export default function Process() {
                 'min-[701px]:flex-row min-[701px]:gap-[clamp(20px,4vw,60px)]',
                 topBorder,
                 bottomBorder,
-                isActive ? 'scale-[1.02]' : 'scale-[0.98]',
+                isActive ? ACTIVE_SCALE : RESTING_SCALE,
               ]
                 .filter(Boolean)
                 .join(' ')}

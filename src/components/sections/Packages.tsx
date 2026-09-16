@@ -10,12 +10,12 @@ export default function Packages() {
     <Section id="packages" variant="panel">
       <SectionHeading eyebrow="07. Packages" title="Choose your package" />
 
-      <div className="mx-auto grid max-w-[400px] grid-cols-1 items-start gap-5 min-[901px]:max-w-none min-[901px]:grid-cols-3">
+      <div className="mx-auto grid max-w-[400px] grid-cols-1 items-start gap-5 min-[901px]:max-w-none min-[901px]:grid-cols-3 min-[901px]:items-stretch">
         {packages.map((plan, i) => (
-          <FadeIn key={plan.tier} delay={i * 0.1} y={30}>
+          <FadeIn key={plan.tier} delay={i * 0.1} y={30} className="min-[901px]:h-full">
             <div
               className={[
-                'relative flex flex-col gap-8 rounded-2xl border px-8 py-9',
+                'relative flex flex-col gap-8 rounded-2xl border px-8 py-9 min-[901px]:h-full',
                 'transition-[border-color,transform] duration-300 hoverable:hover:-translate-y-1',
                 plan.highlight
                   ? 'border-accent/25 bg-accent/4 hoverable:hover:border-accent/50'

@@ -220,9 +220,9 @@ export default function About() {
             type="button"
             onClick={() => setModalOpen(false)}
             aria-label="Close about dialog"
-            className="press absolute right-[clamp(0.65rem,2.5vw,1.5rem)] top-[clamp(0.65rem,2.5vw,1.5rem)] inline-flex h-11 w-11 items-center justify-center text-muted"
+            className="press absolute right-[clamp(0.65rem,2.5vw,1.5rem)] top-[clamp(0.65rem,2.5vw,1.5rem)] inline-flex h-11 w-11 items-center justify-center text-muted transition-transform duration-300"
           >
-            <span className="inline-flex h-[clamp(2.125rem,8vw,2.75rem)] w-[clamp(2.125rem,8vw,2.75rem)] items-center justify-center rounded-lg border border-edge bg-edge-faint transition-colors duration-200 hoverable:hover:border-accent hoverable:hover:text-primary">
+            <span className="inline-flex h-[clamp(2.125rem,8vw,2.75rem)] w-[clamp(2.125rem,8vw,2.75rem)] items-center justify-center rounded-lg border border-edge bg-edge-faint transition-colors duration-300 hoverable:hover:border-accent hoverable:hover:text-primary">
               <Icon
                 name="close"
                 size={20}

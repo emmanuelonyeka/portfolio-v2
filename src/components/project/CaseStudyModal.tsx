@@ -137,9 +137,9 @@ export function CaseStudyModal({ open, onClose, project, shareUrl }: CaseStudyMo
             type="button"
             onClick={onClose}
             aria-label={`Close ${name} case study`}
-            className="press inline-flex h-11 w-11 shrink-0 items-center justify-center text-muted"
+            className="press inline-flex h-11 w-11 shrink-0 items-center justify-center text-muted transition-transform duration-300"
           >
-            <span className="inline-flex h-[clamp(2.125rem,8vw,2.75rem)] w-[clamp(2.125rem,8vw,2.75rem)] items-center justify-center rounded-lg border border-edge bg-edge-faint transition-colors duration-200 hoverable:hover:border-accent hoverable:hover:text-primary">
+            <span className="inline-flex h-[clamp(2.125rem,8vw,2.75rem)] w-[clamp(2.125rem,8vw,2.75rem)] items-center justify-center rounded-lg border border-edge bg-edge-faint transition-colors duration-300 hoverable:hover:border-accent hoverable:hover:text-primary">
               <Icon
                 name="close"
                 size={20}
@@ -156,7 +156,7 @@ export function CaseStudyModal({ open, onClose, project, shareUrl }: CaseStudyMo
           <div className="flex w-full justify-center">
             <div
               ref={containerRef}
-              className="relative mx-auto inline-flex w-fit items-center gap-1 rounded-2xl border border-pill-edge bg-pill p-1"
+              className="case-study-view-toggle relative mx-auto inline-flex w-fit items-center gap-1 rounded-2xl border border-pill-edge bg-pill p-1 transition-[background-color,border-color] duration-300 theme-light:border-accent/20 theme-light:bg-accent/4"
             >
               {/* No refracted copy here — only two short labels, and bending
                   them made the accent text read as a rendering fault. */}
@@ -280,21 +280,23 @@ export function CaseStudyModal({ open, onClose, project, shareUrl }: CaseStudyMo
                 View Live Project
                 <Icon name="externalLink" size={13} />
               </a>
-              <a
-                href={code}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`${footerBtn} border border-edge-strong text-primary hoverable:hover:border-accent hoverable:hover:text-accent`}
-              >
-                Source Code
-                <Icon name="github" size={13} />
-              </a>
+              {code && (
+                <a
+                  href={code}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`${footerBtn} border border-edge-strong text-primary hoverable:hover:border-accent hoverable:hover:text-accent`}
+                >
+                  Source Code
+                  <Icon name="github" size={13} />
+                </a>
+              )}
             </>
           )}
           <button
             type="button"
             onClick={copyCaseStudyLink}
-            className={`${footerBtn} border border-edge-strong bg-transparent text-primary hoverable:hover:border-accent hoverable:hover:text-accent`}
+            className={`${footerBtn} ${!purchaseUrl && !code ? 'col-span-2' : ''} border border-edge-strong bg-transparent text-primary hoverable:hover:border-accent hoverable:hover:text-accent`}
             aria-live="polite"
           >
             {copyState === 'copied' ? 'Link copied' : copyState === 'error' ? 'Copy unavailable' : 'Copy link'}

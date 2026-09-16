@@ -54,7 +54,13 @@ const [
   processData,
   processComponent,
   beliefsData,
+  servicesData,
   servicesComponent,
+  packagesData,
+  packagesComponent,
+  projectsComponent,
+  liquidLens,
+  errorBoundary,
   main,
   typeDefinitions,
   tailwind,
@@ -63,6 +69,8 @@ const [
   robots,
   sitemap,
   manifest,
+  notFound,
+  netlify,
 ] =
   await Promise.all([
     read('index.html'),
@@ -92,7 +100,13 @@ const [
     read('src/data/process.ts'),
     read('src/components/sections/Process.tsx'),
     read('src/data/beliefs.ts'),
+    read('src/data/services.ts'),
     read('src/components/sections/Services.tsx'),
+    read('src/data/packages.ts'),
+    read('src/components/sections/Packages.tsx'),
+    read('src/components/sections/Projects.tsx'),
+    read('src/components/ui/LiquidLens.tsx'),
+    read('src/components/global/ErrorBoundary.tsx'),
     read('src/main.tsx'),
     read('src/types/index.ts'),
     read('tailwind.config.js'),
@@ -101,6 +115,8 @@ const [
     read('public/robots.txt'),
     read('public/sitemap.xml'),
     read('public/site.webmanifest'),
+    read('public/404.html'),
+    read('netlify.toml'),
   ])
 
 for (const id of ['hero', 'about', 'skills', 'work', 'beliefs', 'services', 'process', 'packages', 'contact']) {
@@ -153,8 +169,12 @@ verify(scrollNavigation.includes("--navbar-resting-height"), 'Section navigation
 
 verify(logo.includes('<svg'), 'The logo must use platform-independent vector geometry')
 verify(!logo.includes('font-['), 'The logo must not depend on OS font glyphs')
-verify((skills.match(/icon:\s*'/g) ?? []).length === 21, 'Every listed skill needs its own lightweight icon')
+verify((skills.match(/icon:\s*'/g) ?? []).length === 25, 'Every listed skill needs its own lightweight icon')
 verify(skillsComponent.includes('<Icon name={item.icon}'), 'Skill icons are not rendered beside their labels')
+verify(skills.includes("tag: 'Frontend → Full Stack'"), 'The frontend-to-full-stack roadmap label is missing')
+for (const plannedSkill of ['Frontend Testing', 'PostgreSQL', 'Prisma', 'API & Authentication']) {
+  verify(skills.includes(`name: '${plannedSkill}'`), `Full-stack roadmap is missing ${plannedSkill}`)
+}
 
 verify(caseStudy.includes('case-study-footer'), 'The project footer needs its height-aware layout hook')
 verify(caseStudy.includes('col-span-2 bg-accent'), 'The primary project-modal action must span the full footer')
@@ -163,15 +183,27 @@ verify(caseStudy.includes('hoverable:hover:border-accent/35'), 'Project-modal ta
 verify(caseStudy.includes('purchaseUrl ?'), 'Project-modal purchase actions must be data-driven')
 verify(caseStudy.includes('Buy Template'), 'The project-modal purchase CTA is missing')
 verify(caseStudy.includes("mobile: '9 / 17'"), 'Mobile screenshots must use their supplied 9:17 display ratio')
-verify(projectCard.includes('!purchaseUrl'), 'Paid templates must not expose their source-code card action')
+verify(projectCard.includes('{code && ('), 'Project cards must expose source only when a public URL exists')
+verify(caseStudy.includes('{code && ('), 'Case studies must expose source only when a public URL exists')
+verify(caseStudy.includes("!purchaseUrl && !code ? 'col-span-2'"), 'Private project copy actions must use the full footer row')
 verify(projectCard.includes('Template Available'), 'Purchasable templates need a restrained availability badge')
 verify(projectCard.includes('min-h-10'), 'Project preview controls need the compact approved height')
 verify(
   projectCard.includes("slug === 'solara-jets'") && projectCard.includes("min-[769px]:scale-[1.012]"),
   'Solara needs its desktop-only recorded-edge cleanup',
 )
+verify(typeDefinitions.includes('code?: string'), 'Project source URLs must be optional')
 verify(typeDefinitions.includes('purchaseUrl?: string'), 'Project data needs an optional real checkout URL')
 verify(projects.includes('https://emmanuelonyekachi.gumroad.com/l/eagwaj'), 'Lumière needs its verified purchase URL')
+verify((projects.match(/\n\s+code:\s*'/g) ?? []).length === 1, 'Only one project repository should be public')
+verify(projects.includes('https://github.com/emmanuelonyeka/nairasave/'), 'NairaSave public source is missing')
+for (const privateSource of [
+  'github.com/emmanuelonyeka/lumiere-restaurant',
+  'github.com/emmanuelonyeka/real-estate',
+  'github.com/emmanuelonyeka/solara-aviation',
+]) {
+  verify(!projects.includes(privateSource), `Private project source leaked into production data: ${privateSource}`)
+}
 verify(css.includes('(orientation: landscape) and (max-height: 720px)'), 'Phone-landscape project footer fallback is missing')
 verify(css.includes('.case-study-footer'), 'The short-height project footer override is missing')
 
@@ -190,6 +222,8 @@ verify(css.includes('@media (max-width: 380px)'), 'Ultra-narrow dialogs need a c
 verify(main.includes("inputModality = 'pointer'"), 'Pointer/keyboard modality tracking is missing')
 verify(css.includes("data-input-modality='keyboard'"), 'Keyboard-only focus-ring styling is missing')
 verify(whatsapp.includes('theme-light:text-white'), 'Light-theme WhatsApp icon must be white')
+verify(whatsapp.includes('bg-[#25D366]'), 'Floating WhatsApp control must use the recognisable brand green')
+verify(!whatsapp.includes('#128C7E'), 'The dull light-theme WhatsApp override has returned')
 verify(packageJson.includes('"lenis": "^1.3.26"'), 'The lightweight smooth-scroll dependency is missing')
 verify(smoothScroll.includes('duration: 1.15'), 'The agreed Solara-style scroll duration is missing')
 verify(smoothScroll.includes("void import('lenis')"), 'Lenis must stay outside the initial JavaScript chunk')
@@ -199,8 +233,26 @@ verify(['I', 'II', 'III', 'IV'].every((num) => processData.includes(`num: '${num
 verify(processComponent.includes('border-y py'), 'Process steps must own equal top and bottom borders')
 verify(processComponent.includes("? 'border-b-accent'"), 'The centred process step must own its accent bottom border')
 verify(!processComponent.includes('hoverable:hover:border-t'), 'Process hover must never recolour a boundary line')
+verify(processComponent.includes("ACTIVE_SCALE = 'scale-[1.01]'"), 'Process active scale must remain restrained')
+verify(processComponent.includes("RESTING_SCALE = 'scale-100'"), 'Inactive Process steps must not shrink')
 verify(['I', 'II', 'III', 'IV'].every((num) => beliefsData.includes(`num: '${num}'`)), 'Belief steps must use Roman numerals')
+verify(beliefsData.includes('Reliable behavior, accessibility, and clean handover earn trust.'), 'Approved working-principle quote is missing')
 verify(servicesComponent.includes("['I', 'II', 'III', 'IV', 'V', 'VI']"), 'Service capabilities must use Roman numerals')
+for (const service of [
+  'React & TypeScript Frontends',
+  'Figma to Responsive Code',
+  'Landing Pages & Business Sites',
+  'Performance & Accessibility',
+]) {
+  verify(servicesData.includes(service), `Service offering is missing ${service}`)
+}
+verify(packagesComponent.includes('min-[901px]:items-stretch'), 'Package rows must equalise card height')
+verify(packagesComponent.includes('min-[901px]:h-full'), 'Package cards must fill their shared row')
+verify(packagesData.includes('International projects are quoted in USD or GBP.'), 'International quote guidance is missing')
+verify(projectsComponent.includes('className="project-summary"'), 'Stacked-project closing note needs its tuning hook')
+verify(css.includes('.project-summary'), 'Stacked-project closing-note offset is missing')
+verify(liquidLens.includes('--liquid-lens-bg'), 'Case-study selector needs a local light-theme lens colour')
+verify(css.includes('html.theme-light .case-study-view-toggle'), 'Light-theme project view selector treatment is missing')
 
 const marqueeFiles = [...marquee.matchAll(/file:\s*'([^']+)'/g)].map((match) => match[1])
 verify(marqueeFiles.length === 10, 'The showcase must include all ten supplied marquee clips')
@@ -227,6 +279,11 @@ for (const marker of [
 ]) {
   verify(html.includes(marker), `SEO marker is missing: ${marker}`)
 }
+verify(!html.toLowerCase().includes('public source code'), 'SEO copy must not claim every repository is public')
+verify(!hero.includes('their source code'), 'Hero copy must not claim every repository is public')
+verify(!projectsComponent.includes('Every project ships with its source'), 'Project note must reflect the source-privacy policy')
+verify(html.includes('"dateModified": "2026-09-16"'), 'Structured-data modification date is stale')
+verify(html.includes('"hasPart": ['), 'ProfilePage structured data must describe the selected work')
 
 const structuredData = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)?.[1]
 try {
@@ -240,7 +297,15 @@ try {
 
 verify(robots.includes('Sitemap: https://emmanuelonyekachi.netlify.app/sitemap.xml'), 'robots.txt is missing the canonical sitemap')
 verify(sitemap.includes('<loc>https://emmanuelonyekachi.netlify.app/</loc>'), 'sitemap.xml is missing the canonical URL')
+verify(sitemap.includes('<lastmod>2026-09-16</lastmod>'), 'sitemap modification date is stale')
+verify(!sitemap.includes('<priority>'), 'Ignored sitemap priority metadata should stay removed')
 verify(JSON.parse(manifest).name.includes('Emmanuel Onyekachi'), 'Web manifest identity is incorrect')
+verify(main.includes('<ErrorBoundary>'), 'The app root is missing its unexpected-error boundary')
+verify(errorBoundary.includes('componentDidCatch'), 'The error boundary must report render failures')
+verify(errorBoundary.includes('Reload page'), 'The error boundary is missing a recovery action')
+verify(notFound.includes('name="robots" content="noindex, nofollow"'), 'The 404 page must stay out of search results')
+verify(notFound.includes('Return home'), 'The 404 page is missing its primary recovery action')
+verify(!netlify.includes('[[redirects]]'), 'A catch-all redirect would turn genuine 404s into soft 404s')
 
 const sourceFiles = await walk(join(root, 'src'))
 const sourceText = (

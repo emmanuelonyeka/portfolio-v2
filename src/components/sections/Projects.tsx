@@ -59,10 +59,9 @@ export default function Projects() {
         <div className="project-stack-tail pointer-events-none" />
       </div>
 
-      <Container>
+      <Container className="project-summary">
         <p className="mb-[50px] text-center text-[0.85rem] text-muted">
-          Every project ships with its source. Open a Case Study for the build decisions
-          behind it.
+          Open a Case Study for the decisions, constraints, and lessons behind each build.
         </p>
       </Container>
     </section>

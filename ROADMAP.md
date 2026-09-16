@@ -31,11 +31,13 @@
 
 ## 3. Merge and deploy
 
+- Include the final 404, error boundary, source-privacy, SEO, service, skill, interaction, and package-card readiness pass.
 - Copy the approved source into the GitHub-linked folder without copying `node_modules`, `dist`, or `.git`.
 - Preserve the existing `.env` in the GitHub-linked project root; the hand-off ZIP intentionally does not contain credentials.
 - Run `npm install`, `npm run check`, and one production preview.
 - Add the three EmailJS variables to Netlify and restrict EmailJS allowed origins.
 - Deploy, test a real form submission, validate social previews, and run the final mobile/desktop smoke test.
+- Unpublish GitHub Pages only after the matching Netlify production link has been verified; keep repositories and Netlify connections intact.
 
 ## 4. Commercial launch
 

@@ -93,9 +93,9 @@ export function ImageLightbox({
         type="button"
         onClick={onClose}
         aria-label={`Close ${label} lightbox`}
-        className="press fixed right-[clamp(0.75rem,3vw,1.5rem)] top-[clamp(0.75rem,3vw,1.5rem)] z-[100000] flex h-11 w-11 items-center justify-center text-white"
+        className="press fixed right-[clamp(0.75rem,3vw,1.5rem)] top-[clamp(0.75rem,3vw,1.5rem)] z-[100000] flex h-11 w-11 items-center justify-center text-white transition-transform duration-300"
       >
-        <span className="inline-flex h-[clamp(2.125rem,8vw,2.75rem)] w-[clamp(2.125rem,8vw,2.75rem)] items-center justify-center rounded-full border border-white/20 bg-black/60 transition-[background-color,transform] duration-200 hoverable:hover:scale-105 hoverable:hover:bg-accent hoverable:hover:text-accent-contrast">
+        <span className="inline-flex h-[clamp(2.125rem,8vw,2.75rem)] w-[clamp(2.125rem,8vw,2.75rem)] items-center justify-center rounded-full border border-white/20 bg-black/60 transition-[background-color,transform] duration-300 hoverable:hover:scale-105 hoverable:hover:bg-accent hoverable:hover:text-accent-contrast">
           <Icon
             name="close"
             size={22}

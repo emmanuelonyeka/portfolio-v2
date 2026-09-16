@@ -19,13 +19,17 @@ export const skillGroups: SkillGroup[] = [
     ],
   },
   {
-    tag: 'Learning Now',
-    title: 'What I am adding',
+    tag: 'Frontend → Full Stack',
+    title: 'What I am adding next',
     items: [
-      { name: 'Next.js', note: 'App Router, Server Actions, SSR', icon: 'nextjs' },
-      { name: 'Node.js', note: 'Asynchronous event-driven runtime', icon: 'nodejs' },
+      { name: 'Next.js', note: 'App Router, rendering and full-stack React', icon: 'nextjs' },
       { name: 'TanStack Query', note: 'Data fetching, caching, server state', icon: 'tanstack' },
-      { name: 'Supabase', note: 'Auth, Postgres and storage without a custom server', icon: 'supabase' },
+      { name: 'Frontend Testing', note: 'Vitest, React Testing Library and Playwright', icon: 'testing' },
+      { name: 'Node.js', note: 'Server-side JavaScript and API foundations', icon: 'nodejs' },
+      { name: 'PostgreSQL', note: 'Relational data modelling and queries', icon: 'postgresql' },
+      { name: 'Prisma', note: 'Type-safe database access and migrations', icon: 'prisma' },
+      { name: 'API & Authentication', note: 'Secure application data and user sessions', icon: 'api' },
+      { name: 'Supabase', note: 'Auth, Postgres and storage as a backend bridge', icon: 'supabase' },
     ],
   },
   {

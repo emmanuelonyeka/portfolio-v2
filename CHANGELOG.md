@@ -1,3 +1,21 @@
+# Pre-deployment readiness pass — 16 September 2026
+
+1. Added a branded static 404 page that Netlify can return with a genuine 404 status.
+2. Added a root React error boundary with reload, homepage, and direct-email recovery actions.
+3. Made project source URLs optional and removed private/commercial repository links from Lumière, PrimeNest, and Solara production data; NairaSave remains public.
+4. Updated hero, project, social, and SEO copy so the site no longer claims that every project has public source code.
+5. Expanded ProfilePage structured data with all four deployed projects and refreshed final-deploy modification dates.
+6. Kept the Process centre-line interaction while reducing active scale to 1.01 and removing inactive-step shrink.
+7. Changed the light-theme case-study selector to a restrained accent tint without altering the shared navigation lens or dark theme.
+8. Standardised project and bordered-button press transitions around the modal's 300ms interaction timing.
+9. Restored the standard WhatsApp green in the light theme with the approved white icon.
+10. Reframed the skills roadmap from frontend into full-stack learning without presenting planned tools as production proficiency.
+11. Rewrote services around React/TypeScript, Figma-to-code, business sites, motion, performance/accessibility, and handover.
+12. Replaced the working-principle quote with a sharper client-facing statement grounded in reliability, accessibility, and handover.
+13. Equalised package-card heights on shared rows, anchored each CTA to the bottom, and clarified international USD/GBP quoting.
+14. Closed the stacked-project caption gap without changing the sticky stack's measured scroll room.
+15. Removed stale comments, corrected configuration indentation, and documented only the intentional tuning points.
+
 # Final visual cleanup — 16 September 2026
 
 1. Confirmed the Solara preview is a true 1280×800 16:10 BT.709 recording and was copied without portfolio-side recompression.

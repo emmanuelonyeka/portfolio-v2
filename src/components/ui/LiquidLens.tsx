@@ -49,6 +49,7 @@ export function LiquidLens({
   return (
     <span
       {...(draggable ? dragHandlers : {})}
+      className="liquid-lens"
       style={{
         position: 'absolute',
         left: 0,
@@ -65,8 +66,9 @@ export function LiquidLens({
         cursor: draggable ? (dragging ? 'grabbing' : 'grab') : undefined,
         pointerEvents: draggable ? 'auto' : 'none',
         willChange: 'transform, width',
-        // Neutral grey in both themes: white over dark, ink over light.
-        background: `rgb(var(--contrast-rgb) / ${liquid ? 0.07 : 0.1})`,
+        // Neutral by default. A local CSS variable lets a specific control use
+        // a theme-aware treatment without changing the navigation lens.
+        background: `var(--liquid-lens-bg, rgb(var(--contrast-rgb) / ${liquid ? 0.07 : 0.1}))`,
         // The CENTRE stays clear. No blur here at all — the rim layer below is
         // the only thing that distorts, which is what makes it read as a lens
         // rather than a frosted tile.

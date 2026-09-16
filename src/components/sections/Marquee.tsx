@@ -252,7 +252,7 @@ export default function Marquee() {
         type="button"
         onClick={toggleClips}
         aria-pressed={videoPaused}
-        className="press absolute right-5 top-10 z-[2] inline-flex min-h-10 items-center justify-center rounded-full border border-edge-strong bg-surface px-3.5 text-xs font-semibold text-primary transition-[border-color,color] duration-200 hoverable:hover:border-accent/30 hoverable:hover:text-accent min-[701px]:right-8"
+        className="press absolute right-5 top-10 z-[2] inline-flex min-h-10 items-center justify-center rounded-full border border-edge-strong bg-surface px-3.5 text-xs font-semibold text-primary transition-[transform,background-color,border-color,color] duration-300 hoverable:hover:border-accent/30 hoverable:hover:text-accent min-[701px]:right-8"
       >
         {videoPaused ? 'Play showcase videos' : 'Pause showcase videos'}
       </button>

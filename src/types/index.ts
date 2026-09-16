@@ -36,6 +36,10 @@ export type IconName =
   | 'nodejs'
   | 'tanstack'
   | 'supabase'
+  | 'testing'
+  | 'postgresql'
+  | 'prisma'
+  | 'api'
   | 'accessibility'
   | 'performance'
   | 'designSystem'
@@ -73,8 +77,8 @@ export interface Project {
   tech: string[]
   /** Live deployment. */
   href: string
-  /** Public repository. */
-  code: string
+  /** Public repository. Omit for private and commercial projects. */
+  code?: string
   /** Real checkout URL. Omit until the template's store listing is live. */
   purchaseUrl?: string
   /** Looping preview video shown beside the card. */

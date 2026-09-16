@@ -3,32 +3,32 @@ import type { Service } from '../types'
 export const services: Service[] = [
   {
     icon: 'code',
-    name: 'Frontend Development',
-    desc: 'Responsive, performant interfaces built with clean and scalable code.',
+    name: 'React & TypeScript Frontends',
+    desc: 'Responsive, maintainable interfaces built with typed components and clean architecture.',
   },
   {
     icon: 'layout',
-    name: 'UI Implementation',
-    desc: 'Careful translation of supplied designs and references into responsive interfaces.',
+    name: 'Figma to Responsive Code',
+    desc: 'Careful translation of supplied Figma designs into accurate interfaces across screen sizes.',
+  },
+  {
+    icon: 'package',
+    name: 'Landing Pages & Business Sites',
+    desc: 'Focused websites with clear hierarchy, responsive presentation, and direct calls to action.',
   },
   {
     icon: 'layers',
     name: 'Motion & Interaction',
-    desc: 'Scroll-driven animations and micro-interactions using GSAP and Framer Motion.',
+    desc: 'Purposeful scroll animation and micro-interactions using GSAP and Framer Motion.',
   },
   {
     icon: 'clock',
-    name: 'Performance Optimization',
-    desc: 'Reviews focused on asset weight, loading behavior, rendering cost, and layout stability.',
+    name: 'Performance & Accessibility',
+    desc: 'Faster loading, stable layouts, keyboard support, and reduced-motion-aware experiences.',
   },
   {
     icon: 'component',
-    name: 'Component Systems',
-    desc: 'Reusable component structures with clear content, configuration, and handover notes.',
-  },
-  {
-    icon: 'package',
-    name: 'Landing Pages',
-    desc: 'Focused pages with clear hierarchy, responsive presentation, and direct calls to action.',
+    name: 'Component Systems & Handover',
+    desc: 'Reusable structures with centralised content, clear configuration, and practical documentation.',
   },
 ]
