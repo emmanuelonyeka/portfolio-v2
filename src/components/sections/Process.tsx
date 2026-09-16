@@ -4,7 +4,7 @@ import { Section } from '../ui/Section'
 import { SectionHeading } from '../ui/SectionHeading'
 
 /* PROCESS MOTION TUNING: keep the centred step legible without shrinking its neighbours. */
-const ACTIVE_SCALE = 'scale-[1.02]'
+const ACTIVE_SCALE = 'scale-[1.01]'
 const RESTING_SCALE = 'scale-100'
 
 export default function Process() {
