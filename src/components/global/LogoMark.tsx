@@ -1,0 +1,32 @@
+interface LogoMarkProps {
+  compact?: boolean
+  mobileCompact?: boolean
+}
+
+/**
+ * The mark uses the exact vector geometry from favicon.svg. System braces and
+ * Verdana fall back to different glyphs on Android, so text could never render
+ * consistently across Android, macOS and iOS.
+ */
+export function LogoMark({ compact = false, mobileCompact = false }: LogoMarkProps) {
+  const size = compact
+    ? 'h-9 w-[41px]'
+    : mobileCompact
+      ? 'h-9 w-[42px] min-[769px]:h-10 min-[769px]:w-[47px]'
+      : 'h-10 w-[47px]'
+
+  return (
+    <svg
+      aria-hidden="true"
+      focusable="false"
+      viewBox="190 220 880 790"
+      className={`${size} shrink-0 transition-[height,width] duration-[600ms] ease-smooth motion-reduce:transition-none`}
+    >
+      <path
+        className="fill-accent"
+        d="M424 253 L447 253 L452 257 L453 260 L452 305 L447 309 L416 311 L392 319 L377 332 L369 348 L366 363 L365 526 L361 546 L357 557 L352 567 L344 578 L331 590 L314 600 L287 609 L310 616 L333 629 L347 643 L355 656 L363 679 L366 706 L366 855 L369 870 L376 884 L382 891 L390 897 L403 903 L414 906 L448 909 L451 911 L452 960 L448 964 L448 965 L416 965 L392 961 L375 957 L349 946 L335 936 L324 925 L313 908 L304 882 L300 854 L300 708 L296 689 L288 674 L272 660 L252 652 L226 647 L219 644 L217 639 L217 577 L222 571 L257 564 L271 558 L280 552 L287 545 L295 531 L300 509 L300 364 L303 341 L307 324 L316 304 L326 290 L334 282 L355 268 L384 258 L424 253ZM818 253 L842 253 L875 256 L896 261 L911 267 L925 275 L935 283 L950 301 L957 314 L962 328 L967 354 L968 511 L972 529 L980 544 L992 555 L1003 561 L1015 565 L1046 571 L1050 576 L1050 642 L1048 645 L1016 652 L994 661 L986 667 L979 675 L971 692 L968 707 L967 862 L962 890 L952 913 L943 926 L933 936 L909 951 L881 960 L849 964 L849 965 L817 965 L812 959 L812 913 L816 909 L853 906 L876 898 L890 886 L899 868 L902 850 L902 698 L904 682 L910 662 L920 644 L935 629 L955 617 L980 609 L958 602 L944 595 L934 588 L918 571 L910 556 L904 536 L902 521 L902 367 L899 349 L889 330 L883 324 L869 316 L851 311 L818 309 L813 306 L812 258 L814 255 L818 253Z"
+      />
+      <path className="fill-primary" d="M521 439H748V486H578V581H738V627H578V739H752V785H521Z" />
+    </svg>
+  )
+}
