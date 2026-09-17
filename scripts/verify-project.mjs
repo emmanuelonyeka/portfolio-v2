@@ -228,6 +228,14 @@ verify(projectCarousel.includes('slide.offsetLeft'), 'Carousel centring must use
 verify(projectCarousel.includes('translate3d(${offset}px'), 'Carousel movement must use a valid pixel transform')
 verify(!projectCarousel.includes('calc(-${index}'), 'Unsupported CSS multiplication has returned to the carousel')
 verify(!projectCarousel.includes("'press absolute top-1/2"), 'Carousel arrows must not inherit the conflicting press transform')
+verify(
+  projectCarousel.match(/requestAnimationFrame/g)?.length === 2,
+  'Carousel loop resets must remain transition-free across a complete browser paint',
+)
+verify(
+  !projectCarousel.includes('setTimeout(() => setAnimating(true)'),
+  'Carousel loop resets must not use a timer that can run before the browser paints',
+)
 verify(projectCarousel.includes("'clamp(16rem, 72%, 32rem)'"), 'Desktop case-study images need their mobile minimum width')
 verify(projectCarousel.includes('object-contain'), 'Case-study screenshots must never be cropped')
 verify(lightbox.includes('max-w-[min(95vw,900px)]'), 'Small-screen lightbox media must use the approved width')

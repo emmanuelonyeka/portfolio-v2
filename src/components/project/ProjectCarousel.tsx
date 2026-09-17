@@ -65,17 +65,13 @@ export function ProjectCarousel({ images, aspect, label, onOpen }: ProjectCarous
     const viewport = viewportRef.current
     if (!viewport) return
 
-    let resumeTimer = 0
     const observer = new ResizeObserver(() => {
       setAnimating(false)
       measure()
-      window.clearTimeout(resumeTimer)
-      resumeTimer = window.setTimeout(() => setAnimating(true), 30)
     })
     observer.observe(viewport)
 
     return () => {
-      window.clearTimeout(resumeTimer)
       observer.disconnect()
     }
   }, [measure])
@@ -87,9 +83,19 @@ export function ProjectCarousel({ images, aspect, label, onOpen }: ProjectCarous
 
   useEffect(() => {
     if (animating) return
-    // One frame with transitions off makes an infinite-loop reset invisible.
-    const timer = window.setTimeout(() => setAnimating(true), 30)
-    return () => window.clearTimeout(timer)
+  
+    // Keep transitions disabled across a real paint before re-enabling them.
+    // A timeout can fire before the browser paints the re-centred track,
+    // causing the invisible loop reset itself to animate backwards.
+    let secondFrame = 0
+    const firstFrame = window.requestAnimationFrame(() => {
+      secondFrame = window.requestAnimationFrame(() => setAnimating(true))
+    })
+  
+    return () => {
+      window.cancelAnimationFrame(firstFrame)
+      if (secondFrame) window.cancelAnimationFrame(secondFrame)
+    }
   }, [animating])
 
   useEffect(() => {
