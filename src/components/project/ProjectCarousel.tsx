@@ -33,15 +33,42 @@ export function ProjectCarousel({ images, aspect, label, onOpen }: ProjectCarous
   const reducedMotion = useReducedMotion()
   const viewportRef = useRef<HTMLDivElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
+  const resumeFramesRef = useRef({ first: 0, second: 0 })
   // Three copies let the track reset invisibly at either end.
   const slides = useMemo(() => [...images, ...images, ...images], [images])
 
   const [index, setIndex] = useState(count)
   const [offset, setOffset] = useState(0)
   const [ready, setReady] = useState(false)
-  const [animating, setAnimating] = useState(true)
+  const [transitionEnabled, setTransitionEnabled] = useState(true)
   const indexRef = useRef(index)
   indexRef.current = index
+
+  const resumeTransitionsAfterPaint = useCallback(() => {
+    const frames = resumeFramesRef.current
+    window.cancelAnimationFrame(frames.first)
+    window.cancelAnimationFrame(frames.second)
+    setTransitionEnabled(false)
+
+    // The first frame commits the clone reset with transitions disabled. The
+    // second frame re-enables movement only after that reset has been painted.
+    frames.first = window.requestAnimationFrame(() => {
+      frames.second = window.requestAnimationFrame(() => {
+        frames.first = 0
+        frames.second = 0
+        setTransitionEnabled(true)
+      })
+    })
+  }, [])
+
+  useEffect(
+    () => () => {
+      const frames = resumeFramesRef.current
+      window.cancelAnimationFrame(frames.first)
+      window.cancelAnimationFrame(frames.second)
+    },
+    [],
+  )
 
   const measure = useCallback(() => {
     const viewport = viewportRef.current
@@ -66,7 +93,7 @@ export function ProjectCarousel({ images, aspect, label, onOpen }: ProjectCarous
     if (!viewport) return
 
     const observer = new ResizeObserver(() => {
-      setAnimating(false)
+      resumeTransitionsAfterPaint()
       measure()
     })
     observer.observe(viewport)
@@ -74,56 +101,47 @@ export function ProjectCarousel({ images, aspect, label, onOpen }: ProjectCarous
     return () => {
       observer.disconnect()
     }
-  }, [measure])
+  }, [measure, resumeTransitionsAfterPaint])
 
   useLayoutEffect(() => {
-    setAnimating(false)
+    indexRef.current = count
     setIndex(count)
-  }, [count, aspect])
-
-  useEffect(() => {
-    if (animating) return
-  
-    // Keep transitions disabled across a real paint before re-enabling them.
-    // A timeout can fire before the browser paints the re-centred track,
-    // causing the invisible loop reset itself to animate backwards.
-    let secondFrame = 0
-    const firstFrame = window.requestAnimationFrame(() => {
-      secondFrame = window.requestAnimationFrame(() => setAnimating(true))
-    })
-  
-    return () => {
-      window.cancelAnimationFrame(firstFrame)
-      if (secondFrame) window.cancelAnimationFrame(secondFrame)
-    }
-  }, [animating])
+    resumeTransitionsAfterPaint()
+  }, [count, aspect, resumeTransitionsAfterPaint])
 
   useEffect(() => {
     if (!reducedMotion || count === 0) return
     const logical = ((index % count) + count) % count
-    setAnimating(false)
-    setIndex(count + logical)
+    const next = count + logical
+    indexRef.current = next
+    setIndex(next)
     // Reduced-motion steps already stay inside the middle copy.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reducedMotion, count])
 
   function step(delta: number) {
-    if (count < 2 || !ready || !animating) return
+    if (count < 2 || !ready) return
 
-    const logical = ((index - count + delta) % count + count) % count
+    const current = indexRef.current
+    const logical = ((current - count + delta) % count + count) % count
     if (reducedMotion) {
-      setIndex(count + logical)
+      const next = count + logical
+      indexRef.current = next
+      setIndex(next)
       return
     }
 
-    const next = index + delta
+    const next = current + delta
     if (next < 0 || next >= slides.length) {
       // Only possible after unusually rapid repeated input. Re-centre without
-      // animating instead of ever pointing at a slide that does not exist.
-      setAnimating(false)
-      setIndex(count + logical)
+      // a visible transition instead of pointing at a slide that does not exist.
+      const centred = count + logical
+      indexRef.current = centred
+      resumeTransitionsAfterPaint()
+      setIndex(centred)
       return
     }
+    indexRef.current = next
     setIndex(next)
   }
 
@@ -132,10 +150,13 @@ export function ProjectCarousel({ images, aspect, label, onOpen }: ProjectCarous
     // movement should control the infinite-loop reset.
     if (event.target !== event.currentTarget || event.propertyName !== 'transform') return
 
-    if (index >= 2 * count || index < count) {
-      const logical = ((index % count) + count) % count
-      setAnimating(false)
-      setIndex(count + logical)
+    const current = indexRef.current
+    if (current >= 2 * count || current < count) {
+      const logical = ((current % count) + count) % count
+      const centred = count + logical
+      indexRef.current = centred
+      resumeTransitionsAfterPaint()
+      setIndex(centred)
     }
   }
 
@@ -179,11 +200,11 @@ export function ProjectCarousel({ images, aspect, label, onOpen }: ProjectCarous
           style={{
             transform: `translate3d(${offset}px, 0, 0)`,
             transition:
-              ready && animating && !reducedMotion
+              ready && transitionEnabled && !reducedMotion
                 ? 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)'
                 : 'none',
             visibility: ready ? 'visible' : 'hidden',
-            willChange: ready && animating && !reducedMotion ? 'transform' : undefined,
+            willChange: ready && transitionEnabled && !reducedMotion ? 'transform' : undefined,
           }}
         >
           {slides.map((src, slideIndex) => {

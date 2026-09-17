@@ -233,12 +233,18 @@ verify(
   'Carousel loop resets must remain transition-free across a complete browser paint',
 )
 verify(
-  !projectCarousel.includes('setTimeout(() => setAnimating(true)'),
-  'Carousel loop resets must not use a timer that can run before the browser paints',
+  projectCarousel.includes('if (count < 2 || !ready) return'),
+  'Carousel navigation must remain usable while a clone reset is being painted',
+)
+verify(
+  !projectCarousel.includes('!ready || !transitionEnabled'),
+  'Carousel controls must never be disabled by transition-reset state',
 )
 verify(projectCarousel.includes("'clamp(16rem, 72%, 32rem)'"), 'Desktop case-study images need their mobile minimum width')
 verify(projectCarousel.includes('object-contain'), 'Case-study screenshots must never be cropped')
 verify(lightbox.includes('max-w-[min(95vw,900px)]'), 'Small-screen lightbox media must use the approved width')
+verify(!lightbox.includes('backdrop-blur'), 'Lightbox must avoid the iOS pinch-zoom backdrop compositing fault')
+verify(!lightbox.includes('animate-modal-slide-in'), 'Lightbox media must not retain a transform animation layer during pinch zoom')
 
 verify(!modal.includes('min-[601px]:items-start'), 'Dialogs must remain viewport-centred above 600px')
 verify(css.includes('width: min(95vw, 640px)'), 'Small dialogs need the 95vw width cap')

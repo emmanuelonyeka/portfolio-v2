@@ -75,14 +75,14 @@ export function ImageLightbox({
     'hoverable:hover:border-accent hoverable:hover:bg-accent hoverable:hover:text-accent-contrast'
   const media =
     'max-h-[82vh] max-w-[min(95vw,900px)] rounded-lg object-contain ' +
-    'shadow-[0_24px_48px_rgba(0,0,0,0.6)] animate-modal-slide-in supports-[height:100dvh]:max-h-[82dvh]'
+    'shadow-[0_24px_48px_rgba(0,0,0,0.5)] supports-[height:100dvh]:max-h-[82dvh]'
 
   return (
     <Modal
       open={open}
       onClose={onClose}
       labelledBy="lightbox-caption"
-      overlayClassName="z-[99999] items-center bg-[rgb(10_12_20/0.88)] p-[clamp(0.5rem,2vw,1rem)] backdrop-blur-[20px] animate-modal-fade-in theme-light:bg-[rgb(240_237_230/0.88)]"
+      overlayClassName="z-[99999] items-center bg-[#0a0c14] p-[clamp(0.5rem,2vw,1rem)] animate-modal-fade-in theme-light:bg-[#f6f4ef]"
       panelClassName="w-full items-center justify-center !border-0 !bg-transparent !animate-none"
     >
       <p id="lightbox-caption" className="sr-only">
