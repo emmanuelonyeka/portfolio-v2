@@ -8,9 +8,9 @@
     <title>Page Not Found | Emmanuel Onyekachi</title>
     <script>
       try {
-        var savedTheme = localStorage.getItem('theme')
-        var systemLight = window.matchMedia('(prefers-color-scheme: light)').matches
-        if (savedTheme === 'light' || (!savedTheme && systemLight)) {
+        var theme = localStorage.getItem('theme')
+        var light = matchMedia('(prefers-color-scheme: light)').matches
+        if (theme === 'light' || (!theme && light)) {
           document.documentElement.className = 'light'
           document.querySelector('meta[name="theme-color"]').content = '#f7f5f1'
         }
@@ -19,117 +19,93 @@
     <style>
       :root {
         color-scheme: dark;
-        --bg: #0f1117;
-        --surface: #151821;
-        --text: #f4f6fb;
-        --muted: #9ca3af;
-        --edge: rgb(255 255 255 / 0.14);
-        --accent: #4f9cf9;
-        --accent-text: #07111f;
+        --bg:#0f1117;--surface:#151821;--text:#f4f6fb;--muted:#949ca9;
+        --edge:rgb(255 255 255/.14);--grid:rgb(255 255 255/.035);
+        --accent:#4f9cf9;--soft:rgb(79 156 249/.1);--on-accent:#07111f;
       }
-
       .light {
         color-scheme: light;
-        --bg: #f7f5f1;
-        --surface: #fff;
-        --text: #15171c;
-        --muted: #5f6670;
-        --edge: rgb(15 17 23 / 0.14);
-        --accent: #1d4ed8;
-        --accent-text: #fff;
+        --bg:#f7f5f1;--surface:#fff;--text:#15171c;--muted:#626975;
+        --edge:rgb(15 17 23/.14);--grid:rgb(15 17 23/.04);
+        --accent:#2563d9;--soft:rgb(37 99 217/.08);--on-accent:#fff;
       }
-
-      * { box-sizing: border-box; }
-      body {
-        margin: 0;
-        min-height: 100vh;
-        min-height: 100dvh;
-        display: grid;
-        place-items: center;
-        padding: clamp(1rem, 4vw, 2.5rem);
-        background:
-          radial-gradient(circle at 15% 15%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 34%),
-          var(--bg);
-        color: var(--text);
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      *{box-sizing:border-box}
+      html{min-width:320px;background:var(--bg)}
+      body{
+        margin:0;min-height:100vh;min-height:100dvh;display:grid;place-items:center;
+        padding:clamp(1rem,3vw,2.5rem);color:var(--text);
+        font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+        background:radial-gradient(circle at 12% 8%,var(--soft),transparent 28rem),
+          linear-gradient(var(--grid) 1px,transparent 1px),
+          linear-gradient(90deg,var(--grid) 1px,transparent 1px),var(--bg);
+        background-size:auto,48px 48px,48px 48px,auto;
       }
-
-      main {
-        width: min(100%, 720px);
-        border: 1px solid var(--edge);
-        border-radius: 1.25rem;
-        background: var(--surface);
-        padding: clamp(1.5rem, 7vw, 4rem);
-        box-shadow: 0 24px 70px rgb(0 0 0 / 0.16);
-      }
-
-      .mark {
-        display: inline-flex;
-        align-items: center;
-        gap: .2rem;
-        margin-bottom: clamp(2rem, 6vw, 4rem);
-        color: var(--accent);
-        font: 700 1.35rem/1 ui-monospace, monospace;
-      }
-      .mark span { color: var(--text); }
-      .eyebrow {
-        margin: 0 0 .8rem;
-        color: var(--accent);
-        font: 700 .75rem/1.2 ui-monospace, monospace;
-        letter-spacing: .14em;
-        text-transform: uppercase;
-      }
-      h1 {
-        margin: 0;
-        max-width: 11ch;
-        font-size: clamp(2.5rem, 10vw, 5.5rem);
-        line-height: .98;
-        letter-spacing: -.055em;
-      }
-      p {
-        max-width: 34rem;
-        margin: 1.5rem 0 0;
-        color: var(--muted);
-        font-size: clamp(.95rem, 2vw, 1.08rem);
-        line-height: 1.75;
-      }
-      nav {
-        display: flex;
-        flex-wrap: wrap;
-        gap: .75rem;
-        margin-top: 2rem;
-      }
-      a {
-        min-height: 44px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        border: 1px solid var(--edge);
-        border-radius: .65rem;
-        padding: .7rem 1.15rem;
-        color: var(--text);
-        font-size: .9rem;
-        font-weight: 700;
-        text-decoration: none;
-        transition: transform 300ms, border-color 300ms, color 300ms, background-color 300ms;
-      }
-      a:first-child { border-color: var(--accent); background: var(--accent); color: var(--accent-text); }
-      a:hover { border-color: var(--accent); color: var(--accent); }
-      a:first-child:hover { color: var(--accent-text); filter: brightness(.94); }
-      a:active { transform: scale(.97); }
-      a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+      body:before{content:"";position:fixed;inset:0 0 auto;height:3px;background:var(--accent)}
+      main{width:min(100%,1040px);overflow:hidden;border:1px solid var(--edge);border-radius:14px;background:var(--surface)}
+      header,footer{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:clamp(1rem,3vw,1.5rem) clamp(1.2rem,4vw,2.5rem)}
+      header{border-bottom:1px solid var(--edge)}
+      footer{border-top:1px solid var(--edge);color:var(--muted);font-size:.72rem}
+      .brand{display:flex;align-items:center;gap:.8rem;color:var(--text);text-decoration:none}
+      .brand-mark{width:47px;height:42px;flex:none}
+      .brand-mark .braces{fill:var(--accent)}
+      .brand-mark .letter{fill:var(--text)}
+      .brand span{display:grid;gap:.18rem;font-size:.8rem;font-weight:700}
+      .brand small{color:var(--muted);font-size:.66rem;font-weight:400}
+      .status{color:var(--muted);font:600 .67rem/1.3 ui-monospace,monospace;letter-spacing:.11em;text-transform:uppercase}
+      .status:before{content:"";display:inline-block;width:7px;height:7px;margin-right:.55rem;border-radius:50%;background:#6ee7a8}
+      article{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 230px;align-items:end;gap:clamp(2rem,6vw,5rem);min-height:clamp(430px,61vh,600px);padding:clamp(3rem,8vw,5.5rem) clamp(1.25rem,7vw,5rem)}
+      article:before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 55%,var(--soft));pointer-events:none}
+      .copy{position:relative}
+      .eyebrow{margin:0 0 1rem;color:var(--accent);font:700 .75rem/1.2 ui-monospace,monospace;letter-spacing:.14em;text-transform:uppercase}
+      h1{max-width:12ch;margin:0;font-size:clamp(2.8rem,7vw,6rem);line-height:.96;letter-spacing:-.06em}
+      h1 span{color:var(--muted)}
+      .description{max-width:37rem;margin:1.5rem 0 0;color:var(--muted);font-size:clamp(.94rem,1.7vw,1.06rem);line-height:1.72}
+      nav{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:2rem}
+      .action{min-height:46px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--edge);border-radius:8px;padding:.75rem 1.2rem;color:var(--text);font-size:.84rem;font-weight:700;text-decoration:none;transition:transform .3s,border-color .3s,color .3s,background .3s}
+      .primary{border-color:var(--accent);background:var(--accent);color:var(--on-accent)}
+      .action:active{transform:scale(.97)}
+      .action:focus-visible,.brand:focus-visible,footer a:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+      aside{position:relative;align-self:stretch;display:flex;flex-direction:column;justify-content:space-between;border-left:1px solid var(--edge);padding-left:clamp(1.5rem,4vw,3rem)}
+      .number{color:transparent;font:700 clamp(5rem,13vw,9rem)/.8 ui-monospace,monospace;letter-spacing:-.1em;-webkit-text-stroke:1px var(--edge)}
+      .signal{display:grid;gap:.6rem;color:var(--muted);font:600 .62rem/1.5 ui-monospace,monospace;letter-spacing:.09em;text-transform:uppercase}
+      .signal span:last-child{color:var(--accent)}
+      footer a{color:var(--muted);text-underline-offset:3px}
+      @media(hover:hover) and (pointer:fine){.action:hover{border-color:var(--accent);color:var(--accent)}.primary:hover{color:var(--on-accent);background:rgb(79 156 249/.9)}footer a:hover{color:var(--accent)}}
+      @media(max-width:700px){article{display:block;min-height:0;padding-block:3.5rem}aside{display:none}article:after{content:"404";position:absolute;z-index:0;top:1rem;right:1.25rem;color:var(--soft);font:700 clamp(4rem,23vw,7rem)/1 ui-monospace,monospace;letter-spacing:-.12em}.copy{z-index:1}footer{align-items:flex-start;flex-direction:column}}
+      @media(max-width:480px){body{place-items:start center;padding:1rem}main{margin:.5rem 0}.brand span{display:none}.status{max-width:12rem;text-align:right}nav{flex-direction:column}.action{width:100%}}
     </style>
   </head>
   <body>
     <main>
-      <a class="mark" href="/" aria-label="Emmanuel Onyekachi — homepage">{<span>E</span>}</a>
-      <p class="eyebrow">Error 404</p>
-      <h1>This page wandered off.</h1>
-      <p>The address may have changed or the link may be incomplete. The portfolio and every published project are still available from the homepage.</p>
-      <nav aria-label="Error page actions">
-        <a href="/">Return home</a>
-        <a href="mailto:emmanuel.onyekachi.dev@gmail.com">Email Emmanuel</a>
-      </nav>
+      <header>
+        <a class="brand" href="/" aria-label="Emmanuel Onyekachi — homepage">
+          <svg class="brand-mark" aria-hidden="true" focusable="false" viewBox="190 220 880 790">
+            <path class="braces" d="M424 253 L447 253 L452 257 L453 260 L452 305 L447 309 L416 311 L392 319 L377 332 L369 348 L366 363 L365 526 L361 546 L357 557 L352 567 L344 578 L331 590 L314 600 L287 609 L310 616 L333 629 L347 643 L355 656 L363 679 L366 706 L366 855 L369 870 L376 884 L382 891 L390 897 L403 903 L414 906 L448 909 L451 911 L452 960 L448 964 L448 965 L416 965 L392 961 L375 957 L349 946 L335 936 L324 925 L313 908 L304 882 L300 854 L300 708 L296 689 L288 674 L272 660 L252 652 L226 647 L219 644 L217 639 L217 577 L222 571 L257 564 L271 558 L280 552 L287 545 L295 531 L300 509 L300 364 L303 341 L307 324 L316 304 L326 290 L334 282 L355 268 L384 258 L424 253ZM818 253 L842 253 L875 256 L896 261 L911 267 L925 275 L935 283 L950 301 L957 314 L962 328 L967 354 L968 511 L972 529 L980 544 L992 555 L1003 561 L1015 565 L1046 571 L1050 576 L1050 642 L1048 645 L1016 652 L994 661 L986 667 L979 675 L971 692 L968 707 L967 862 L962 890 L952 913 L943 926 L933 936 L909 951 L881 960 L849 964 L849 965 L817 965 L812 959 L812 913 L816 909 L853 906 L876 898 L890 886 L899 868 L902 850 L902 698 L904 682 L910 662 L920 644 L935 629 L955 617 L980 609 L958 602 L944 595 L934 588 L918 571 L910 556 L904 536 L902 521 L902 367 L899 349 L889 330 L883 324 L869 316 L851 311 L818 309 L813 306 L812 258 L814 255 L818 253Z" />
+            <path class="letter" d="M521 439H748V486H578V581H738V627H578V739H752V785H521Z" />
+          </svg>
+          <span>Emmanuel Onyekachi<small>Frontend Web Developer</small></span>
+        </a>
+        <span class="status">Route unavailable</span>
+      </header>
+      <article>
+        <div class="copy">
+          <p class="eyebrow">Error 404 / Page not found</p>
+          <h1>This route ends here. <span>The work doesn’t.</span></h1>
+          <p class="description">The address may have changed or the link may be incomplete. Return to the portfolio or jump directly to the selected projects.</p>
+          <nav aria-label="Error page actions">
+            <a class="action primary" href="/">Return home</a>
+            <a class="action" href="/#work">View selected work</a>
+          </nav>
+        </div>
+        <aside aria-hidden="true">
+          <span class="number">404</span>
+          <span class="signal"><span>Requested route / not found</span><span>Portfolio / operational</span></span>
+        </aside>
+      </article>
+      <footer>
+        <span>Emmanuel Onyekachi · Designed and built in Ibadan, Nigeria</span>
+        <a href="mailto:emmanuel.onyekachi.dev@gmail.com">Report a broken link</a>
+      </footer>
     </main>
   </body>
 </html>

@@ -148,7 +148,7 @@ verify(aboutComponent.includes("closest('section')"), 'About reveal end must be 
 verify(hero.includes('EYEBROW_SEEN_KEY'), 'The first-visit hero eyebrow guard is missing')
 verify(hero.includes("navigation.type === 'navigate'"), 'Hero typing must run only on a fresh navigation')
 verify(hero.includes('animate-hero-cursor-blink'), 'The three-blink hero cursor is missing')
-verify(hero.includes('TYPE_INTERVAL_MS = 65'), 'Hero typing must use the approved readable speed')
+verify(hero.includes('TYPE_INTERVAL_MS = 95'), 'Hero typing must use the approved readable speed')
 verify(tailwind.includes('hero-cursor-blink 1000ms'), 'Each hero cursor blink must last one second')
 verify(tailwind.includes('3 forwards'), 'The hero cursor must finish in its invisible blink phase')
 verify(hero.includes("scrollToSection('work')"), 'The primary hero CTA must use measured section navigation')
@@ -189,8 +189,12 @@ verify(caseStudy.includes("!purchaseUrl && !code ? 'col-span-2'"), 'Private proj
 verify(projectCard.includes('Template Available'), 'Purchasable templates need a restrained availability badge')
 verify(projectCard.includes('min-h-10'), 'Project preview controls need the compact approved height')
 verify(
-  projectCard.includes("slug === 'solara-jets'") && projectCard.includes("min-[769px]:scale-[1.012]"),
+  projectCard.includes("slug === 'solara-jets'") && projectCard.includes("min-[769px]:origin-left min-[769px]:scale-[1.045]"),
   'Solara needs its desktop-only recorded-edge cleanup',
+)
+verify(
+  projectCard.includes("slug === 'primenest-realty'") && projectCard.includes("min-[769px]:scale-[1.025]"),
+  'PrimeNest needs its desktop-only recorded-edge cleanup',
 )
 verify(typeDefinitions.includes('code?: string'), 'Project source URLs must be optional')
 verify(typeDefinitions.includes('purchaseUrl?: string'), 'Project data needs an optional real checkout URL')

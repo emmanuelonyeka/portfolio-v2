@@ -17,7 +17,7 @@ const REVEAL = [0.15, 0.25, 0.35, 0.45, 0.55, 0.65]
 
 const EYEBROW_SEEN_KEY = 'emmanuel:hero-eyebrow-seen'
 const TYPE_DELAY_MS = 240
-const TYPE_INTERVAL_MS = 65
+const TYPE_INTERVAL_MS = 95
 
 type EyebrowPhase = 'static' | 'waiting' | 'typing' | 'blinking' | 'fading'
 
