@@ -12,9 +12,9 @@ interface MarqueeClip {
 }
 
 const marqueeClipFiles = [
-  { file: 'solara-showcase-01.mp4', poster: 'images/projects/solara/desktop/01-hero.webp' },
+  { file: 'solara-showcase-01.mp4', poster: 'images/projects/solara/desktop/01-hero-clean.webp' },
   { file: 'lumiere-showcase-01.mp4', poster: 'images/projects/lumiere/desktop/01-hero.webp' },
-  { file: 'primenest-showcase-01.mp4', poster: 'images/projects/primenest/desktop/01-hero.webp' },
+  { file: 'primenest-showcase-01.mp4', poster: 'images/projects/primenest/desktop/01-hero-clean.webp' },
   { file: 'nairasave-showcase-01.mp4', poster: 'images/projects/nairasave/desktop/01-hero.webp' },
   { file: 'lumiere-showcase-02.mp4', poster: 'images/projects/lumiere/desktop/02-menu.webp' },
   { file: 'primenest-showcase-02.mp4', poster: 'images/projects/primenest/desktop/02-property-listings.webp' },

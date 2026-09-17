@@ -32,6 +32,7 @@ const projectCatalog: Project[] = [
     href: 'https://lumiere-cuisine.netlify.app',
     purchaseUrl: 'https://emmanuelonyekachi.gumroad.com/l/eagwaj',
     video: asset('videos/projects/lumiere-preview.mp4'),
+    previewFit: 'contain',
     desktopImages: [
       asset('images/projects/lumiere/desktop/01-hero.webp'),
       asset('images/projects/lumiere/desktop/02-menu.webp'),
@@ -70,9 +71,9 @@ const projectCatalog: Project[] = [
     hardPart: `The static build looked finished, but its content and presentation were tightly coupled. A demo phone number appeared across several files, so a routine content change created unnecessary search-and-replace work and a real risk of inconsistent values.\n\nA sellable template has to be maintainable by someone who did not build it. I identified the values a buyer would change most often, separated them into configuration and data files, and replaced repeated page structures with reusable components.\n\nThe difficult part was preserving behavior during the migration. Filters, sorting, saved properties, comparison state, article navigation, and responsive layouts all had to survive the move to React and TypeScript without changing the intended experience.`,
     tech: ['React', 'TypeScript', 'Tailwind', 'Vite'],
     href: 'https://primenest-realty-ng.netlify.app',
-    video: asset('videos/projects/primenest-preview.mp4'),
+    video: asset('videos/projects/primenest-preview-clean.mp4'),
     desktopImages: [
-      asset('images/projects/primenest/desktop/01-hero.webp'),
+      asset('images/projects/primenest/desktop/01-hero-clean.webp'),
       asset('images/projects/primenest/desktop/02-property-listings.webp'),
       asset('images/projects/primenest/desktop/03-founder.webp'),
       asset('images/projects/primenest/desktop/04-agents.webp'),
@@ -110,6 +111,7 @@ const projectCatalog: Project[] = [
     href: 'https://teamguru-frontend.netlify.app',
     code: 'https://github.com/emmanuelonyeka/nairasave/',
     video: asset('videos/projects/nairasave-preview.mp4'),
+    previewFit: 'contain',
     desktopImages: [
       asset('images/projects/nairasave/desktop/01-hero.webp'),
       asset('images/projects/nairasave/desktop/02-currency-calculator.webp'),
@@ -146,9 +148,9 @@ const projectCatalog: Project[] = [
     hardPart: `The first pinned-scroll implementation was not stable across breakpoints. Trigger calculations changed as pin spacers altered document height, and a transformed ancestor interfered with fixed positioning. I isolated each condition, rebuilt the timeline around measured section geometry, and retested the transitions at the target widths.\n\nAt 350px, one heading still collided with its neighboring image. The fix was partly visual rather than purely technical: I adjusted the image treatment where the elements meet so the text remains readable without removing the intended composition.\n\nThat work gave the project a clear testing boundary and documented the interaction assumptions a future maintainer would need.`,
     tech: ['React', 'TypeScript', 'Tailwind', 'GSAP'],
     href: 'https://solara-aviation.netlify.app',
-    video: asset('videos/projects/solara-preview.mp4'),
+    video: asset('videos/projects/solara-preview-clean.mp4'),
     desktopImages: [
-      asset('images/projects/solara/desktop/01-hero.webp'),
+      asset('images/projects/solara/desktop/01-hero-clean.webp'),
       asset('images/projects/solara/desktop/02-quote-request.webp'),
       asset('images/projects/solara/desktop/03-fleet.webp'),
       asset('images/projects/solara/desktop/04-destinations.webp'),

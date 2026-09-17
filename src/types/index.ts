@@ -83,6 +83,8 @@ export interface Project {
   purchaseUrl?: string
   /** Looping preview video shown beside the card. */
   video: string
+  /** Recordings that must remain fully visible can opt out of the default edge-to-edge crop. */
+  previewFit?: 'cover' | 'contain'
   desktopImages: string[]
   mobileImages: string[]
   /** Brand colour used on dark backgrounds. */

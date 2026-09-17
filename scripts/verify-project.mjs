@@ -189,12 +189,25 @@ verify(caseStudy.includes("!purchaseUrl && !code ? 'col-span-2'"), 'Private proj
 verify(projectCard.includes('Template Available'), 'Purchasable templates need a restrained availability badge')
 verify(projectCard.includes('min-h-10'), 'Project preview controls need the compact approved height')
 verify(
-  projectCard.includes("slug === 'solara-jets'") && projectCard.includes("min-[769px]:origin-left min-[769px]:scale-[1.045]"),
-  'Solara needs its desktop-only recorded-edge cleanup',
+  projectCard.includes("previewFit === 'contain' ? 'object-contain' : 'object-cover'"),
+  'Project video fitting must follow media geometry instead of project-specific transform patches',
 )
 verify(
-  projectCard.includes("slug === 'primenest-realty'") && projectCard.includes("min-[769px]:scale-[1.025]"),
-  'PrimeNest needs its desktop-only recorded-edge cleanup',
+  !projectCard.includes('scale-[1.045]') && !projectCard.includes('scale-[1.025]'),
+  'Project previews must not restore the old project-specific scale patches',
+)
+for (const cleanedMedia of [
+  'videos/projects/solara-preview-clean.mp4',
+  'videos/projects/primenest-preview-clean.mp4',
+  'images/projects/solara/desktop/01-hero-clean.webp',
+  'images/projects/primenest/desktop/01-hero-clean.webp',
+]) {
+  verify(projects.includes(cleanedMedia), `Project data is missing cleaned media: ${cleanedMedia}`)
+}
+verify(typeDefinitions.includes("previewFit?: 'cover' | 'contain'"), 'Project video fit needs an explicit typed option')
+verify(
+  projects.match(/previewFit: 'contain'/g)?.length === 2,
+  'Lumiere and the square NairaSave recording must remain fully visible',
 )
 verify(typeDefinitions.includes('code?: string'), 'Project source URLs must be optional')
 verify(typeDefinitions.includes('purchaseUrl?: string'), 'Project data needs an optional real checkout URL')

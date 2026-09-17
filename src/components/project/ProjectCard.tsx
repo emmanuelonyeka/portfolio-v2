@@ -57,6 +57,7 @@ export default function ProjectCard({ index, total, onProgress, project }: Proje
     code,
     purchaseUrl,
     video,
+    previewFit = 'cover',
     tabColor,
     tabColorLight,
     tabBg,
@@ -376,12 +377,8 @@ export default function ProjectCard({ index, total, onProgress, project }: Proje
                     onError={() => setPreviewFailed(true)}
                     onPlay={() => setIsPreviewPlaying(true)}
                     onPause={() => setIsPreviewPlaying(false)}
-                    className={`relative z-[1] block h-full w-full object-contain transition-transform duration-[600ms] motion-reduce:transition-none ${
-                      slug === 'solara-jets'
-                        ? 'min-[769px]:origin-left min-[769px]:scale-[1.045]'
-                        : slug === 'primenest-realty'
-                          ? 'min-[769px]:scale-[1.025]'
-                          : 'hoverable:hover:scale-[1.02]'
+                    className={`absolute inset-0 z-[1] block h-full w-full transition-transform duration-[600ms] motion-reduce:transition-none hoverable:hover:scale-[1.02] ${
+                      previewFit === 'contain' ? 'object-contain' : 'object-cover'
                     }`}
                   />
                   <button
